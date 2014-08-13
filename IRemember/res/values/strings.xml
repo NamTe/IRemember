@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">IRemember</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="IRemember">IRemember</string>
+    <string name="btAdd">ADD</string>
+    <string name="etFilter">Text Filter</string>
+    <string name="title_activity_add_screen">AddScreen</string>
+	<string name="title">Title</string>
+	<string name="body">Body</string>
+	<string name="addAudioLink">Audio Link</string>
+	<string name="AudioButton">Add Audio</string>
+	<string name="Addvideo">Video Link</string>
+	<string name="addVideoLink">Add Video</string>
+	<string name="imageName">Image Name</string>
+	<string name="btAddPhoto">Add Photo</string>
+	<string name="storyTime">Story Time</string>
+	<string name="clickText">Click Text To Set</string>
+	<string name="Location">Location</string>
+	<string name="btLocation">Get Location</string>
+	<string name="btCreate">Create</string>
+	<string name="btClear">Clear</string>
+	<string name="btCancel">Cancel</string>
+	<string name="location">0</string>
+</resources>
