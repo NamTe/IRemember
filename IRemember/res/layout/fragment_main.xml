@@ -1,29 +1,19 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="fu.agile.iremember.MainActivity$PlaceholderFragment" >
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
 
-    <LinearLayout android:layout_width="match_parent"
+    tools:context="fu.agile.iremember.MainActivity$PlaceholderFragment"
+    android:background="@drawable/bg"
+     >
+
+    <LinearLayout 
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:id="@+id/layout1"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
-        <TextView 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/IRemember"
-            android:layout_gravity="center"
-            />
-        <Button 
-            android:id="@+id/btAdd"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/btAdd"
-            />
         <EditText 
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
@@ -33,9 +23,36 @@
             />
 
     </LinearLayout>
-	<ListView 
-	    android:id="@+id/lwListRemember"
-	    android:layout_width="match_parent"
-	    android:layout_height="match_parent"
-	    ></ListView>
-</LinearLayout>
+		<ListView 
+		    android:paddingLeft="20dp"
+        	android:paddingRight="20dp"
+		    android:layout_above="@+id/btFunction"
+		    android:layout_below="@+id/layout1"
+		    android:id="@+id/lwListRemember"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    ></ListView>
+
+		<RelativeLayout
+		    android:id="@+id/btFunction"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_alignParentBottom="true"
+		    android:background="#333"
+		    android:layout_alignParentLeft="true"
+        	android:layout_alignParentRight="true"
+		    android:orientation="horizontal" >
+
+			<Button
+			    android:layout_centerHorizontal="true"
+			    android:layout_gravity="center"
+			    android:id="@+id/btAdd"
+			    android:layout_width="50dp"
+			    android:layout_height="50dp"
+			    android:layout_marginBottom="5dp"
+			    android:layout_marginTop="5dp"
+			    android:background="@drawable/add" />
+ 
+		</RelativeLayout>
+</RelativeLayout>
+

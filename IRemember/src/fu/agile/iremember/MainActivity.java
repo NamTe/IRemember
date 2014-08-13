@@ -64,7 +64,7 @@ public class MainActivity extends Activity implements  android.view.View.OnClick
 			return rootView;
 		}
 	}
-
+	
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
