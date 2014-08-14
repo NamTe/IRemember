@@ -12,6 +12,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.*;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.view.ViewGroup;
 import android.widget.*;
 import android.os.Build;
@@ -20,6 +23,7 @@ public class MainActivity extends Activity implements  android.view.View.OnClick
 
 
 	Button btAdd;
+	Animation animBounce;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -70,6 +74,9 @@ public class MainActivity extends Activity implements  android.view.View.OnClick
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 			case R.id.btAdd: {
+	
+				animBounce = AnimationUtils.loadAnimation(this, R.anim.bounce);
+				findViewById(R.id.btAdd).startAnimation(animBounce);
 				Intent intent = new Intent(MainActivity.this,AddScreen.class);
 				startActivity(intent);
 			}break;
