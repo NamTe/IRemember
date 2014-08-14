@@ -1,7 +1,13 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+
+<ScrollView 
     android:id="@+id/ScrollView1"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content" xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="wrap_content" >
 
 	<RelativeLayout
 	    android:id="@+id/rlLayout"
@@ -171,7 +177,7 @@
 	        android:id="@+id/textView11"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_alignLeft="@+id/btAddPhoto"
+	        android:layout_alignLeft="@+id/textView13"
 	        android:layout_below="@+id/textView10"
 	        android:text="@string/location" />
 
@@ -192,10 +198,15 @@
 	        android:layout_alignLeft="@+id/button2"
 	        android:layout_marginLeft="11dp"
 	        android:text="@string/location" />
-	<LinearLayout android:layout_width="wrap_content"
+	
+	</RelativeLayout>
+	
+</ScrollView>
+<LinearLayout 
+	    android:background="#333"
+	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
 	    android:orientation="horizontal"
-	    android:layout_below="@+id/twLocation1"
 	    android:layout_alignParentBottom="true">
 	    
 	    <Button
@@ -217,6 +228,4 @@
 	        tools:ignore="ButtonStyle" />
 
 	</LinearLayout>
-	</RelativeLayout>
-	
-</ScrollView>
+</RelativeLayout>
