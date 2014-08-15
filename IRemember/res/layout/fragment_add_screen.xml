@@ -94,7 +94,7 @@
 	        android:text="@string/Addvideo" />
 	
 	    <Button
-	        android:id="@+id/button2"
+	        android:id="@+id/btAddVideo1"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_alignBaseline="@+id/textView5"
@@ -106,7 +106,7 @@
 	        android:id="@+id/etImageName"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_alignRight="@+id/button2"
+	        android:layout_alignRight="@+id/btAddVideo1"
 	        android:layout_alignTop="@+id/textView6"
 	        android:ems="10" android:inputType="text"/>
 	
@@ -115,7 +115,7 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_alignLeft="@+id/textView4"
-	        android:layout_below="@+id/button2"
+	        android:layout_below="@+id/btAddVideo1"
 	        android:layout_marginTop="32dp"
 	        android:text="@string/imageName" />
 	
@@ -195,7 +195,7 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_alignBottom="@+id/twLocation1"
-	        android:layout_alignLeft="@+id/button2"
+	        android:layout_alignLeft="@+id/btAddVideo1"
 	        android:layout_marginLeft="11dp"
 	        android:text="@string/location" />
 	

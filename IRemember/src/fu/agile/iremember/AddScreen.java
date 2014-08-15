@@ -25,24 +25,33 @@ public class AddScreen extends Activity implements OnClickListener {
 	Button btAddPhto;
 	String imageName;
 	EditText etImaegName;
+	Button btAddVideo;
+	static private int TAKE_PICTURE_CODE = 1;
+	static private int TAKE_VIDEO_CODE = 2;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fragment_add_screen);
 		btAddPhto = (Button) findViewById(R.id.btAddPhoto);
 		btAddPhto.setOnClickListener(this);
+		btAddVideo = (Button)findViewById(R.id.btAddVideo1);
+		btAddVideo.setOnClickListener(this);
 		etImaegName = (EditText) findViewById(R.id.etImageName);
 	}
 	
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		     if(resultCode == RESULT_OK){      
-		    	 imageName = data.getStringExtra("result");
+		if(requestCode == TAKE_PICTURE_CODE) {
+			if(resultCode == RESULT_OK){      
+		    	 imageName = data.getStringExtra("resultOfPhoto");
 		    	 etImaegName.setText(imageName);
 		    	 Log.d("ImageName", imageName);
+		     }else if(requestCode == TAKE_VIDEO_CODE) {
+		    	 
 		     }
-		}
+		}	     
+	} 
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -88,6 +97,11 @@ public class AddScreen extends Activity implements OnClickListener {
 			case R.id.btAddPhoto : {
 				openNewGameDialog();
 			} break;
+			case R.id.btAddVideo1 : {
+				Intent intent = new Intent(AddScreen.this,PhotoCapture.class);
+				intent.putExtra("Video", 3);
+				startActivityForResult(intent, TAKE_VIDEO_CODE);
+			} break;
 		}
 	}
 
@@ -115,6 +129,6 @@ public class AddScreen extends Activity implements OnClickListener {
 	public void openCamera(int which) {
 		Intent intent = new Intent(AddScreen.this,PhotoCapture.class);
 		intent.putExtra("key", which);
-		startActivityForResult(intent, 1);
+		startActivityForResult(intent, TAKE_PICTURE_CODE);
 	}
 }

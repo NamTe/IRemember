@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,27 +22,37 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 public class PhotoCapture extends Activity implements OnClickListener {
 
 	static final int REQUEST_IMAGE_CAPTURE = 1;
 	static final int REQUEST_TAKE_PHOTO = 1;
 	static final int REQUEST_PICK_PHTO = 100;
+	static final int ACTION_TAKE_VIDEO = 2;
 	Button btSave;
 	String photoPath;
+	String videoPath;
 	ImageView mImageView;
+	VideoView mVideoView;
+	int caseIntent;
+	Uri mVideoUri;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_photo_capture);
 		mImageView = (ImageView) findViewById(R.id.mImageView);
+		mVideoView = (VideoView) findViewById(R.id.videoView1);
 		btSave = (Button) findViewById(R.id.btSaveImage);
 		btSave.setOnClickListener(this);
 		Intent intent = getIntent();
-		if(intent.getIntExtra("key", 0) == 1) {
+		caseIntent = intent.getIntExtra("key",-1) == -1 ? intent.getIntExtra("Video", -1) : intent.getIntExtra("key",-1);
+		if(caseIntent == 1) {
 			takePicture();
-		} else {
+		} else if(caseIntent == 0) {
 			getPictureFormGallery();
+		} else {
+			TakeVideoIntent();
 		}
 	}
 	
@@ -62,6 +73,13 @@ public class PhotoCapture extends Activity implements OnClickListener {
 	        cursor.close();
 	        Bitmap bit = BitmapFactory.decodeFile(photoPath);
 	        mImageView.setImageBitmap(bit);
+	    } else if(requestCode == ACTION_TAKE_VIDEO && data != null && data.getData() != null) {
+	    	mVideoUri = data.getData();
+			mVideoView.setVideoURI(mVideoUri);
+			Log.d("VIDEO", videoPath);
+			mVideoView.setVisibility(View.VISIBLE);
+			mImageView.setVisibility(View.INVISIBLE);
+			mVideoView.start();
 	    }
 	}
 	
@@ -113,6 +131,16 @@ public class PhotoCapture extends Activity implements OnClickListener {
 		return image;
 	}
 	
+	
+	public File createVideoFile() throws IOException {
+		String photoTempName = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+		String photoName = "AD_VD_" + photoTempName + "_";
+		File dir = Environment.getExternalStoragePublicDirectory(
+	            Environment.DIRECTORY_PICTURES);
+		File image = File.createTempFile(photoName, ".mp4",dir);
+		return image;
+	}
+	
 	private void setPic() {
 		Bitmap bit = BitmapFactory.decodeFile(photoPath);
         mImageView.setImageBitmap(bit);
@@ -130,9 +158,14 @@ public class PhotoCapture extends Activity implements OnClickListener {
 		switch(v.getId()) {
 			case R.id.btSaveImage : {
 				Intent returnIntent = new Intent();
-				 returnIntent.putExtra("result",photoPath);
-				 setResult(RESULT_OK,returnIntent);     
-				 finish();
+				if(photoPath != null) {
+					returnIntent.putExtra("resultOfPhoto",photoPath);
+				} else {
+					returnIntent.putExtra("resultOfVideo",photoPath);
+				}
+				
+				setResult(RESULT_OK,returnIntent);     
+				finish();
 				break;
 			}
 		}
@@ -144,6 +177,21 @@ public class PhotoCapture extends Activity implements OnClickListener {
 	    Uri contentUri = Uri.fromFile(f);
 	    mediaScanIntent.setData(contentUri);
 	    this.sendBroadcast(mediaScanIntent);
+	}
+	
+	private void TakeVideoIntent() {
+		File Video = null;
+		try {
+			Video = createVideoFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			Toast.makeText(getApplicationContext(), "Can not use datastorage", Toast.LENGTH_LONG).show();
+			finish();
+		}
+		Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+		takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(Video));
+		startActivityForResult(takeVideoIntent, ACTION_TAKE_VIDEO);
+		videoPath = Video.getAbsolutePath();
 	}
 	
 }
