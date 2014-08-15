@@ -7,6 +7,7 @@ import java.util.Date;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -25,6 +26,7 @@ public class PhotoCapture extends Activity implements OnClickListener {
 
 	static final int REQUEST_IMAGE_CAPTURE = 1;
 	static final int REQUEST_TAKE_PHOTO = 1;
+	static final int REQUEST_PICK_PHTO = 100;
 	Button btSave;
 	String photoPath;
 	ImageView mImageView;
@@ -35,8 +37,12 @@ public class PhotoCapture extends Activity implements OnClickListener {
 		mImageView = (ImageView) findViewById(R.id.mImageView);
 		btSave = (Button) findViewById(R.id.btSaveImage);
 		btSave.setOnClickListener(this);
-		takePicture();
-		
+		Intent intent = getIntent();
+		if(intent.getIntExtra("key", 0) == 1) {
+			takePicture();
+		} else {
+			getPictureFormGallery();
+		}
 	}
 	
 	@Override
@@ -44,7 +50,19 @@ public class PhotoCapture extends Activity implements OnClickListener {
 		if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
 			setPic();
 	    }
+		else if(requestCode == REQUEST_PICK_PHTO && data != null && data.getData() != null) {
+	        Uri _uri = data.getData();
 
+	        //User had pick an image.
+	        Cursor cursor = getContentResolver().query(_uri, new String[] { android.provider.MediaStore.Images.ImageColumns.DATA }, null, null, null);
+	        cursor.moveToFirst();
+
+	        //Link to the image
+	        photoPath = cursor.getString(0);
+	        cursor.close();
+	        Bitmap bit = BitmapFactory.decodeFile(photoPath);
+	        mImageView.setImageBitmap(bit);
+	    }
 	}
 	
 	
@@ -81,6 +99,7 @@ public class PhotoCapture extends Activity implements OnClickListener {
 		if(takePictureByIntend.resolveActivity(getPackageManager()) != null) {
 			takePictureByIntend.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
 			startActivityForResult(takePictureByIntend, REQUEST_IMAGE_CAPTURE);
+			galleryAddPic();
 		}
 	}
 	
@@ -98,16 +117,33 @@ public class PhotoCapture extends Activity implements OnClickListener {
 		Bitmap bit = BitmapFactory.decodeFile(photoPath);
         mImageView.setImageBitmap(bit);
 	}
+	
+	public void getPictureFormGallery () {
+		Intent i = new Intent(Intent.ACTION_PICK,
+	               android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+		startActivityForResult(i, REQUEST_PICK_PHTO);  
+	}
 
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		switch(v.getId()) {
 			case R.id.btSaveImage : {
-				finish();
+				Intent returnIntent = new Intent();
+				 returnIntent.putExtra("result",photoPath);
+				 setResult(RESULT_OK,returnIntent);     
+				 finish();
 				break;
 			}
 		}
+	}
+	
+	private void galleryAddPic() {
+	    Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+	    File f = new File(photoPath);
+	    Uri contentUri = Uri.fromFile(f);
+	    mediaScanIntent.setData(contentUri);
+	    this.sendBroadcast(mediaScanIntent);
 	}
 	
 }

@@ -26,5 +26,10 @@
     <string name="location">0</string>
     <string name="title_activity_photo_capture">PhotoCapture</string>
     <string name="btSaveImage">Save</string>
+    <string name="new_game_title">Option</string>
+    <array name="Option_Name">
+        <item>From Gellery</item>
+        <item>Camera</item>
+    </array>
 
 </resources>
