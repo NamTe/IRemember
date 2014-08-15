@@ -1,22 +1,26 @@
 package fu.agile.iremember;
 
 import android.app.Activity;
-import android.app.ActionBar;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.os.Build;
+import android.widget.Button;
 
-public class AddScreen extends Activity {
+public class AddScreen extends Activity implements OnClickListener {
 
+	Button btAddPhto;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fragment_add_screen);
+		btAddPhto = (Button) findViewById(R.id.btAddPhoto);
+		btAddPhto.setOnClickListener(this);
 	}
 
 	@Override
@@ -53,6 +57,17 @@ public class AddScreen extends Activity {
 			View rootView = inflater.inflate(R.layout.fragment_add_screen,
 					container, false);
 			return rootView;
+		}
+	}
+
+	@Override
+	public void onClick(View v) {
+		
+		switch(v.getId()) {
+			case R.id.btAddPhoto : {
+				Intent intent = new Intent(AddScreen.this,PhotoCapture.class);
+				startActivity(intent);
+			} break;
 		}
 	}
 
