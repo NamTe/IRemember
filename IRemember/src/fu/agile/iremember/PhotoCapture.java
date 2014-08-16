@@ -63,11 +63,9 @@ public class PhotoCapture extends Activity implements OnClickListener {
 	    }
 		else if(requestCode == REQUEST_PICK_PHTO && data != null && data.getData() != null) {
 	        Uri _uri = data.getData();
-
 	        //User had pick an image.
 	        Cursor cursor = getContentResolver().query(_uri, new String[] { android.provider.MediaStore.Images.ImageColumns.DATA }, null, null, null);
 	        cursor.moveToFirst();
-
 	        //Link to the image
 	        photoPath = cursor.getString(0);
 	        cursor.close();

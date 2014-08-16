@@ -4,6 +4,7 @@ import android.R.color;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -26,12 +27,14 @@ public class AddScreen extends Activity implements OnClickListener {
 	String imageName;
 	EditText etImaegName;
 	Button btAddVideo;
+	EditText inputDialog;
 	static private int TAKE_PICTURE_CODE = 1;
 	static private int TAKE_VIDEO_CODE = 2;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fragment_add_screen);
+		
 		btAddPhto = (Button) findViewById(R.id.btAddPhoto);
 		btAddPhto.setOnClickListener(this);
 		btAddVideo = (Button)findViewById(R.id.btAddVideo1);
@@ -118,11 +121,12 @@ public class AddScreen extends Activity implements OnClickListener {
 				openCamera(which);
 			}
 		});
-		EditText input = new EditText(AddScreen.this);	
-		input.setHint("Enter Image Name Here");
-		input.setGravity(Gravity.CENTER);
-		ob.setView(input);
-		input.setBackgroundColor(color.holo_blue_bright);
+		
+		inputDialog = new EditText(AddScreen.this);	
+		inputDialog.setHint("Enter Image Name Here");
+		inputDialog.setGravity(Gravity.CENTER);
+		ob.setView(inputDialog);
+		inputDialog.setBackgroundColor(color.holo_blue_bright);
 		ob.show();
 	}
 	
