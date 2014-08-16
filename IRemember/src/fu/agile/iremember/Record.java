@@ -18,7 +18,7 @@ public class Record {
 		audio = new File(mAudio.getAbsolutePath().toString());
 		image = new File(mImage.getAbsolutePath().toString());
 		video = new File(mVideo.getAbsolutePath().toString());
-		storyTime = storyTime;
+		this.storyTime = storyTime;
 	}
 	
 	public Record(String mTitle, String mBody) {
@@ -36,5 +36,13 @@ public class Record {
 	
 	public String getBody() {
 		return body;
+	}
+	
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
+	public void setBody(String body) {
+		this.body = body;
 	}
 }

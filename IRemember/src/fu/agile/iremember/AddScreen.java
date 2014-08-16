@@ -4,20 +4,14 @@ import android.R.color;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
-import android.app.Dialog;
-import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -53,12 +47,13 @@ public class AddScreen extends Activity implements OnClickListener {
 			if(resultCode == RESULT_OK){      
 		    	 imageName = data.getStringExtra("resultOfPhoto");
 		    	 etImaegName.setText(imageName);
-		    	 Log.d("ImageName", imageName);
 		     }
 		} else if(requestCode == TAKE_VIDEO_CODE) {
 	    	 
 		} else if(requestCode == TAKE_AUDIO_RECORDER) {
-			
+			if(requestCode == RESULT_OK) {
+				
+			}
 		}
 	} 
 
@@ -82,22 +77,6 @@ public class AddScreen extends Activity implements OnClickListener {
 		return super.onOptionsItemSelected(item);
 	}
 
-	/**
-	 * A placeholder fragment containing a simple view.
-	 */
-	public static class PlaceholderFragment extends Fragment {
-
-		public PlaceholderFragment() {
-		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_add_screen,
-					container, false);
-			return rootView;
-		}
-	}
 
 	@Override
 	public void onClick(View v) {

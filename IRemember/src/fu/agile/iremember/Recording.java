@@ -1,20 +1,20 @@
 package fu.agile.iremember;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class Recording extends Activity implements OnClickListener {
 
@@ -38,6 +38,7 @@ public class Recording extends Activity implements OnClickListener {
 		btSave.setOnClickListener(this);
 		startRecoding = false;
 		startPlay = false;
+		
 	}
 
 	
@@ -67,27 +68,30 @@ public class Recording extends Activity implements OnClickListener {
 		switch(arg0.getId()) {
 			case R.id.btRecorder : {
 				if(startRecoding == false) {
+					startRecoding = true;
 					startingRecorder();
 					btRecorder.setText("Stop Recording");
 				} else {
+					startRecoding = false;
 					stopRecording();
 					btRecorder.setText("Record");
 				}
 				break;
 			}
 			case R.id.btPlayRecorder : {
-				if(startRecoding == false && startPlay == false) {
+				if(startPlay == false) {
 					startPlaying();
-					
+					startPlay = true;
 				}
-				if(startPlay == true && startRecoding == false) {
+				else if(startPlay == true) {
 					stopPlaying();
+					startPlay = false;
 					
-				}
-				break;
-			}
+				}	
+			}break;
 			case R.id.btSaveRecorder : {
-				
+				Intent intent = new Intent();
+				setResult(RESULT_OK, intent);
 				break;
 			}
 		}
@@ -97,7 +101,6 @@ public class Recording extends Activity implements OnClickListener {
 		String prefix = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 		String audioName = "AD_AU_" + prefix + "_.mp3";
 		audioPath = getString(R.string._mnt_sdcard_iremember_audio) + "/" + audioName;
-		startRecoding = true;
 		mRecoder = new MediaRecorder();
 		mRecoder.setAudioSource(MediaRecorder.AudioSource.MIC);
 		mRecoder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
@@ -107,7 +110,7 @@ public class Recording extends Activity implements OnClickListener {
         try {
         	mRecoder.prepare();
         } catch (IOException e) {
-            Log.e("TEST", "prepare() failed");
+            Toast.makeText(getApplicationContext(), "SomeThing went wrong", Toast.LENGTH_LONG);
         }
 
         mRecoder.start();
@@ -115,31 +118,24 @@ public class Recording extends Activity implements OnClickListener {
 	}
 	
 	private void stopRecording() {
-		startRecoding = false;
 		mRecoder.stop();
 		mRecoder.release();
         mRecoder = null;
-        Log.d("TEST", audioPath);
     }
 	
 	private void startPlaying() {
-		startPlay = true;
         mPlayer = new MediaPlayer();
         try {
             mPlayer.setDataSource(audioPath);
             mPlayer.prepare();
             mPlayer.start();
         } catch (IOException e) {
-            Log.e("TEST", "prepare() failed");
+        	Toast.makeText(getApplicationContext(), "SomeThing went wrong", Toast.LENGTH_LONG);
         }
     }
 	
 	private void stopPlaying() {
-		startPlay = false;
         mPlayer.release();
         mPlayer = null;
     }
-
-
-
 }

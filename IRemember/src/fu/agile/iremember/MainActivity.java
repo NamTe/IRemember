@@ -2,23 +2,14 @@ package fu.agile.iremember;
 
 import java.io.File;
 import android.app.Activity;
-import android.app.ActionBar;
-import android.app.Fragment;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.*;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
-import android.view.ViewGroup;
 import android.widget.*;
-import android.os.Build;
 
 public class MainActivity extends Activity implements  android.view.View.OnClickListener {
 
@@ -60,8 +51,7 @@ public class MainActivity extends Activity implements  android.view.View.OnClick
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-
+	public boolean onCreateOptionsMenu(Menu menu) { 
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
@@ -82,26 +72,12 @@ public class MainActivity extends Activity implements  android.view.View.OnClick
 	/**
 	 * A placeholder fragment containing a simple view.
 	 */
-	public static class PlaceholderFragment extends Fragment {
-
-		public PlaceholderFragment() {
-		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_main, container,
-					false);
-			return rootView;
-		}
-	}
 	
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 			case R.id.btAdd: {
-	
 				animBounce = AnimationUtils.loadAnimation(this, R.anim.bounce);
 				findViewById(R.id.btAdd).startAnimation(animBounce);
 				Intent intent = new Intent(MainActivity.this,AddScreen.class);
