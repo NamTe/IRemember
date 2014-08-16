@@ -76,7 +76,7 @@
 	        android:text="@string/addAudioLink" />
 	
 	    <Button
-	        android:id="@+id/button1"
+	        android:id="@+id/btRecorder"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_alignBaseline="@+id/textView4"
@@ -89,7 +89,7 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_alignRight="@+id/textView4"
-	        android:layout_below="@+id/button1"
+	        android:layout_below="@+id/btRecorder"
 	        android:layout_marginTop="40dp"
 	        android:text="@string/Addvideo" />
 	
@@ -99,7 +99,7 @@
 	        android:layout_height="wrap_content"
 	        android:layout_alignBaseline="@+id/textView5"
 	        android:layout_alignBottom="@+id/textView5"
-	        android:layout_alignRight="@+id/button1"
+	        android:layout_alignRight="@+id/btRecorder"
 	        android:text="@string/addVideoLink" />
 	
 	    <EditText
@@ -156,7 +156,7 @@
 	        android:text="@string/Location" />
 	
 	    <Button
-	        android:id="@+id/button3"
+	        android:id="@+id/btSaveRecorder"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_alignBaseline="@+id/textView9"
@@ -169,7 +169,7 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_alignLeft="@+id/textView9"
-	        android:layout_below="@+id/button3"
+	        android:layout_below="@+id/btSaveRecorder"
 	        android:layout_marginTop="40dp"
 	        android:text="@string/btLocation" />
 

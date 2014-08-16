@@ -27,9 +27,16 @@
     <string name="title_activity_photo_capture">PhotoCapture</string>
     <string name="btSaveImage">Save</string>
     <string name="new_game_title">Option</string>
+
     <array name="Option_Name">
         <item>From Gellery</item>
         <item>Camera</item>
     </array>
+
+    <string name="_mnt_sdcard_iremember_photo">/mnt/sdcard/IRemember/Photo</string>
+    <string name="_mnt_sdcard_iremember_video">/mnt/sdcard/IRemember/Video</string>
+    <string name="title_activity_recording">Recording</string>
+    <string name="_mnt_sdcard_iremember">/mnt/sdcard/IRemember</string>
+    <string name="_mnt_sdcard_iremember_audio">/mnt/sdcard/IRemember/Audio</string>
 
 </resources>

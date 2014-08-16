@@ -122,8 +122,7 @@ public class PhotoCapture extends Activity implements OnClickListener {
 	public File createNewPhotoFile() throws IOException {
 		String photoTempName = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 		String photoName = "AD_" + photoTempName + "_";
-		File dir = Environment.getExternalStoragePublicDirectory(
-	            Environment.DIRECTORY_PICTURES);
+		File dir = new File(getString(R.string._mnt_sdcard_iremember_photo));
 		File image = File.createTempFile(photoName, ".JPG",dir);
 		photoPath = image.getAbsolutePath();
 		return image;
@@ -133,8 +132,7 @@ public class PhotoCapture extends Activity implements OnClickListener {
 	public File createVideoFile() throws IOException {
 		String photoTempName = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 		String photoName = "AD_VD_" + photoTempName + "_";
-		File dir = Environment.getExternalStoragePublicDirectory(
-	            Environment.DIRECTORY_PICTURES);
+		File dir = new File(getString(R.string._mnt_sdcard_iremember_video));
 		File image = File.createTempFile(photoName, ".mp4",dir);
 		return image;
 	}

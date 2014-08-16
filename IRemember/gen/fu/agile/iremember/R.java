@@ -35,56 +35,63 @@ public final class R {
         public static final int ic_launcher=0x7f020002;
     }
     public static final class id {
-        public static final int ScrollView1=0x7f0a0004;
-        public static final int action_settings=0x7f0a001f;
-        public static final int btAdd=0x7f0a001e;
-        public static final int btAddPhoto=0x7f0a0011;
-        public static final int btAddVideo1=0x7f0a000e;
-        public static final int btFunction=0x7f0a001c;
+        public static final int ScrollView1=0x7f0a0007;
+        public static final int action_settings=0x7f0a0020;
+        public static final int btAdd=0x7f0a001f;
+        public static final int btAddPhoto=0x7f0a0013;
+        public static final int btAddVideo1=0x7f0a0010;
+        public static final int btFunction=0x7f0a001d;
+        public static final int btPlayRecorder=0x7f0a0005;
+        public static final int btRecorder=0x7f0a0004;
         public static final int btSaveImage=0x7f0a0003;
-        public static final int button1=0x7f0a000c;
-        public static final int button3=0x7f0a0015;
+        public static final int btSaveRecorder=0x7f0a0006;
         public static final int container=0x7f0a0000;
-        public static final int etBody=0x7f0a000a;
-        public static final int etFilter=0x7f0a001b;
-        public static final int etImageName=0x7f0a000f;
-        public static final int etTitle=0x7f0a0008;
-        public static final int layout1=0x7f0a001a;
-        public static final int lwListRemember=0x7f0a001d;
+        public static final int etBody=0x7f0a000d;
+        public static final int etFilter=0x7f0a001c;
+        public static final int etImageName=0x7f0a0011;
+        public static final int etTitle=0x7f0a000b;
+        public static final int layout1=0x7f0a001b;
+        public static final int lwListRemember=0x7f0a001e;
         public static final int mImageView=0x7f0a0001;
-        public static final int rlLayout=0x7f0a0005;
-        public static final int textView1=0x7f0a0006;
-        public static final int textView10=0x7f0a0016;
-        public static final int textView11=0x7f0a0017;
-        public static final int textView13=0x7f0a0018;
-        public static final int textView2=0x7f0a0007;
-        public static final int textView3=0x7f0a0009;
-        public static final int textView4=0x7f0a000b;
-        public static final int textView5=0x7f0a000d;
-        public static final int textView6=0x7f0a0010;
-        public static final int textView7=0x7f0a0012;
-        public static final int textView8=0x7f0a0013;
-        public static final int textView9=0x7f0a0014;
-        public static final int twLocation1=0x7f0a0019;
+        public static final int rlLayout=0x7f0a0008;
+        public static final int textView1=0x7f0a0009;
+        public static final int textView10=0x7f0a0017;
+        public static final int textView11=0x7f0a0018;
+        public static final int textView13=0x7f0a0019;
+        public static final int textView2=0x7f0a000a;
+        public static final int textView3=0x7f0a000c;
+        public static final int textView4=0x7f0a000e;
+        public static final int textView5=0x7f0a000f;
+        public static final int textView6=0x7f0a0012;
+        public static final int textView7=0x7f0a0014;
+        public static final int textView8=0x7f0a0015;
+        public static final int textView9=0x7f0a0016;
+        public static final int twLocation1=0x7f0a001a;
         public static final int videoView1=0x7f0a0002;
     }
     public static final class layout {
         public static final int activity_add_screen=0x7f030000;
         public static final int activity_main=0x7f030001;
         public static final int activity_photo_capture=0x7f030002;
-        public static final int fragment_add_screen=0x7f030003;
-        public static final int fragment_main=0x7f030004;
+        public static final int activity_recording=0x7f030003;
+        public static final int fragment_add_screen=0x7f030004;
+        public static final int fragment_main=0x7f030005;
     }
     public static final class menu {
         public static final int add_screen=0x7f090000;
         public static final int main=0x7f090001;
         public static final int photo_capture=0x7f090002;
+        public static final int recording=0x7f090003;
     }
     public static final class string {
         public static final int Addvideo=0x7f07000b;
         public static final int AudioButton=0x7f07000a;
         public static final int IRemember=0x7f070003;
         public static final int Location=0x7f070011;
+        public static final int _mnt_sdcard_iremember=0x7f07001d;
+        public static final int _mnt_sdcard_iremember_audio=0x7f07001e;
+        public static final int _mnt_sdcard_iremember_photo=0x7f07001a;
+        public static final int _mnt_sdcard_iremember_video=0x7f07001b;
         public static final int action_settings=0x7f070002;
         public static final int addAudioLink=0x7f070009;
         public static final int addVideoLink=0x7f07000c;
@@ -107,6 +114,7 @@ public final class R {
         public static final int title=0x7f070007;
         public static final int title_activity_add_screen=0x7f070006;
         public static final int title_activity_photo_capture=0x7f070017;
+        public static final int title_activity_recording=0x7f07001c;
     }
     public static final class style {
         /** 

@@ -1,5 +1,6 @@
 package fu.agile.iremember;
 
+import java.io.File;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
@@ -30,6 +31,32 @@ public class MainActivity extends Activity implements  android.view.View.OnClick
 		setContentView(R.layout.fragment_main);
 		btAdd = (Button)findViewById(R.id.btAdd);
 		btAdd.setOnClickListener(this);
+		File dir = new File("/mnt/sdcard/IRemember");
+		File phtotoDir = new File(getString(R.string._mnt_sdcard_iremember_photo));
+		File videoDir = new File(getString(R.string._mnt_sdcard_iremember_video));
+		File audioRecorder = new File(getString(R.string._mnt_sdcard_iremember_audio));
+		if(dir.isDirectory() == false) {
+			createNewDir(dir);
+		}
+		if(phtotoDir.isDirectory() == false) {
+			createNewDir(phtotoDir);
+		}
+		if(videoDir.isDirectory() == false) {
+			createNewDir(videoDir);
+		}
+		if(audioRecorder.isDirectory() == false) {
+			createNewDir(audioRecorder);
+		}
+	}
+	
+	public void createNewDir(File newDir) {
+		try {
+			newDir.mkdir();
+		} catch(Exception exc) {
+			Toast.makeText(getApplicationContext(), "Error with sdcard " + newDir.getName(), Toast.LENGTH_LONG).show();
+			finish();
+		}
+		
 	}
 
 	@Override

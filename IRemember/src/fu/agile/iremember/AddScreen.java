@@ -27,9 +27,11 @@ public class AddScreen extends Activity implements OnClickListener {
 	String imageName;
 	EditText etImaegName;
 	Button btAddVideo;
+	Button btAddAudio;
 	EditText inputDialog;
 	static private int TAKE_PICTURE_CODE = 1;
 	static private int TAKE_VIDEO_CODE = 2;
+	static private int TAKE_AUDIO_RECORDER = 3;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -39,6 +41,8 @@ public class AddScreen extends Activity implements OnClickListener {
 		btAddPhto.setOnClickListener(this);
 		btAddVideo = (Button)findViewById(R.id.btAddVideo1);
 		btAddVideo.setOnClickListener(this);
+		btAddAudio = (Button) findViewById(R.id.btRecorder);
+		btAddAudio.setOnClickListener(this);
 		etImaegName = (EditText) findViewById(R.id.etImageName);
 	}
 	
@@ -50,10 +54,12 @@ public class AddScreen extends Activity implements OnClickListener {
 		    	 imageName = data.getStringExtra("resultOfPhoto");
 		    	 etImaegName.setText(imageName);
 		    	 Log.d("ImageName", imageName);
-		     }else if(requestCode == TAKE_VIDEO_CODE) {
-		    	 
 		     }
-		}	     
+		} else if(requestCode == TAKE_VIDEO_CODE) {
+	    	 
+		} else if(requestCode == TAKE_AUDIO_RECORDER) {
+			
+		}
 	} 
 
 	@Override
@@ -105,6 +111,11 @@ public class AddScreen extends Activity implements OnClickListener {
 				intent.putExtra("Video", 3);
 				startActivityForResult(intent, TAKE_VIDEO_CODE);
 			} break;
+			case R.id.btRecorder : {
+				Intent intent = new Intent(AddScreen.this,Recording.class);
+				startActivityForResult(intent, TAKE_AUDIO_RECORDER);
+				break;
+			}
 		}
 	}
 
