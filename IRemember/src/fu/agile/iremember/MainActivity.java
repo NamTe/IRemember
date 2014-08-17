@@ -52,10 +52,10 @@ public class MainActivity extends Activity implements  android.view.View.OnClick
 	}
 	
 	public void display() {
-		List<Record> RecordList = new ArrayList<Record>();
+		List<Card> RecordList = new ArrayList<Card>();
 		List<String> listString = new ArrayList<String>();
 		RecordList = db.getAllRecords();
-		for(Record d : RecordList) {
+		for(Card d : RecordList) {
 			listString.add(d.getTitle());
 		}
 		ArrayAdapter<String> mainAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,listString);

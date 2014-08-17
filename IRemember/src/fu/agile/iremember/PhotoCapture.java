@@ -24,10 +24,7 @@ import android.widget.VideoView;
 
 public class PhotoCapture extends Activity implements OnClickListener {
 
-	static final int REQUEST_IMAGE_CAPTURE = 1;
-	static final int REQUEST_TAKE_PHOTO = 1;
-	static final int REQUEST_PICK_PHTO = 100;
-	static final int ACTION_TAKE_VIDEO = 2;
+	
 	private Button btSave;
 	private Button btCancel;
 	private String photoPath;
@@ -37,6 +34,11 @@ public class PhotoCapture extends Activity implements OnClickListener {
 	private int actionCase;
 	private int caseIntent;
 	private Uri mVideoUri;
+	
+	static final int REQUEST_IMAGE_CAPTURE = 1;
+	static final int REQUEST_TAKE_PHOTO = 1;
+	static final int REQUEST_PICK_PHTO = 100;
+	static final int ACTION_TAKE_VIDEO = 2;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

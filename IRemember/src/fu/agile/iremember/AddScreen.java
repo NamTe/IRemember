@@ -29,35 +29,43 @@ import android.widget.Toast;
 
 public class AddScreen extends Activity implements OnClickListener , LocationListener {
 
+	//Button Declare
 	private Button btAddPhto;
 	private Button create;
 	private Button btAddVideo;
 	private Button btAddAudio;
 	private Button btGetLocation;
+	
+	//Edit Text Declare
 	private EditText etImaegName;
 	private EditText etTitle;
 	private EditText etBody;
-	
 	private EditText inputDialog;
-	private Record newRecord;
-	private DataBase db;
+	
+	//TextView Declare
+	private TextView TimeView;
+	private TextView latituteField;
+	private TextView longitudeField;
+	
+	//String Declare
 	private String time;
 	private String audioPath;
 	private String imagePath;
 	private String videoPath;
-	private TextView TimeView;
-	private TextView latituteField;
-	private TextView longitudeField;
+	private static String tag = "Hello";
 	private String latitute;
 	private String longitude;
-	private LocationManager locationManager;
 	private String provider;
-	Location location;
-	private boolean isGettLocation;
+	
+	//Something else
+	private Location location;
+	private Card newRecord;
+	private DataBase db;
+	private LocationManager locationManager;
 	static private int TAKE_PICTURE_CODE = 1;
 	static private int TAKE_VIDEO_CODE = 2;
 	static private int TAKE_AUDIO_RECORDER = 3;
-	private static String tag = "Hello";
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -83,21 +91,27 @@ public class AddScreen extends Activity implements OnClickListener , LocationLis
 		latituteField = (TextView)findViewById(R.id.twLatitude);
 		db = new DataBase(this);
 		
-		isGettLocation = false;
+
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		Criteria criteria = new Criteria();
 		provider = locationManager.getBestProvider(criteria, false);
 		latitute = "0";
 	    longitude = "0";
 	    // Initialize the location fields
-	    
+	    location = locationManager.getLastKnownLocation(provider);
+	    if (location != null) {
+		      System.out.println("Provider " + provider + " has been selected.");
+		      onLocationChanged(location);
+		    } else {
+		    	latituteField.setText("Location not available");
+		    	longitudeField.setText("Location not available");
+		    }
 	}
 	
 	
 	  @Override
 	  protected void onResume() {
 	    super.onResume();
-	    if(isGettLocation == true)
 	    	locationManager.requestLocationUpdates(provider, 400, 1, this);
 	  }
 
@@ -105,20 +119,15 @@ public class AddScreen extends Activity implements OnClickListener , LocationLis
 	  @Override
 	  protected void onPause() {
 	    super.onPause();
-	    if(isGettLocation == true)
 	    	locationManager.removeUpdates(this);
 	  }
 
 	  @Override
 	  public void onLocationChanged(Location location) {
-		if(isGettLocation == true) {
 			int lat = (int) (location.getLatitude());
 		    int lng = (int) (location.getLongitude());
-		    latituteField.setText(String.valueOf(lat));
-		    longitudeField.setText(String.valueOf(lng));
 		    latitute = String.valueOf(lat);
 		    longitude = String.valueOf(lng);
-		}
 	  }
 
 	  @Override
@@ -199,7 +208,7 @@ public class AddScreen extends Activity implements OnClickListener , LocationLis
 				break;
 			}
 			case R.id.btCreate : {
-				newRecord = new Record(etTitle.getText().toString(), etBody.getText().toString(), time.toString(), audioPath.toString(), imagePath.toString(), videoPath.toString(),latitute,longitude);
+				newRecord = new Card(etTitle.getText().toString(), etBody.getText().toString(), time.toString(), audioPath.toString(), imagePath.toString(), videoPath.toString(),latitute,longitude);
 				db.insertNewRecord(newRecord);
 				Intent intent = new Intent();
 				setResult(RESULT_OK, intent);
@@ -216,17 +225,9 @@ public class AddScreen extends Activity implements OnClickListener , LocationLis
 				longitudeField.setText("0");
 				break;
 			}case R.id.btGetlocation : {
-				Log.d(tag, "LCATION");
-				
-			    location = locationManager.getLastKnownLocation(provider);
-				isGettLocation = true;
-				if (location != null) {
-				      System.out.println("Provider " + provider + " has been selected.");
-				      onLocationChanged(location);
-				    } else {
-				    	latituteField.setText("Location not available");
-				    	longitudeField.setText("Location not available");
-				    }
+				Toast.makeText(getApplicationContext(), "Obtain new location", Toast.LENGTH_LONG).show();
+				latituteField.setText(latitute);
+			    longitudeField.setText(longitude);
 				break;
 			}
 		}

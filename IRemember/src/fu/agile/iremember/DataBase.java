@@ -42,9 +42,8 @@ public class DataBase extends SQLiteOpenHelper {
 		onCreate(db);
 	}
 	
-	public void insertNewRecord(Record newRecord) {
+	public void insertNewRecord(Card newRecord) {
 		SQLiteDatabase db = this.getWritableDatabase();
-		
 		ContentValues values = new ContentValues();
 		values.put(KEY_TILE, newRecord.getTitle());
 		values.put(KEY_BODY, newRecord.getBody());
@@ -58,8 +57,8 @@ public class DataBase extends SQLiteOpenHelper {
 		db.close();
 	}
 	
-	public List<Record> getAllRecords() {
-        List<Record> recordList = new ArrayList<Record>();
+	public List<Card> getAllRecords() {
+        List<Card> recordList = new ArrayList<Card>();
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_NAME;
  
@@ -69,7 +68,7 @@ public class DataBase extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
             	int i = 0;
-            	Record newRecord = new Record();
+            	Card newRecord = new Card();
             	newRecord.setID(Integer.parseInt(cursor.getString(i++)));
                 newRecord.setTitle(cursor.getString(i++));
                 newRecord.setBody(cursor.getString(i++));
@@ -88,7 +87,7 @@ public class DataBase extends SQLiteOpenHelper {
         return recordList;
     }
 	
-	public void deleteRecord(Record mRecord) {
+	public void deleteRecord(Card mRecord) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, KEY_ID + " = ?",
                 new String[] { String.valueOf(mRecord.getID()) });

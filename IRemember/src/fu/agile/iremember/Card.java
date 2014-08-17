@@ -4,7 +4,7 @@ import java.io.File;
 
 import android.text.format.Time;
 
-public class Record {
+public class Card {
 	private int id;
 	private String title;
 	private String body;
@@ -14,7 +14,7 @@ public class Record {
 	private String storyTime;
 	private String latitute;
 	private String longitude;
-	public Record(String mTitle, String mBody, String audioPath, String imagePath, String videoPath, String storyTime,String latitute,String longitude) {
+	public Card(String mTitle, String mBody, String audioPath, String imagePath, String videoPath, String storyTime,String latitute,String longitude) {
 		title = mTitle;
 		body = mBody;
 		audio = new File(audioPath);
@@ -25,13 +25,13 @@ public class Record {
 		this.longitude = longitude;
 	}
 	
-	public Record(String title, String body, String storyTime) {
+	public Card(String title, String body, String storyTime) {
 		this.title = title;
 		this.body = body;
 		this.storyTime = storyTime;
 	}
 	
-	public Record() {
+	public Card() {
 		title = "Unknow";
 		body = "Unknow";
 		audio = null;
@@ -40,37 +40,16 @@ public class Record {
 		this.storyTime = "0/0/0";
 	}
 	
-	public String getLongitude() {
-		return longitude;
-	}
+	public String getLongitude() { return longitude;}	
+	public String getLatitute() { return latitute;}
+	public String getTitle() { return title;}
+	public String getBody() { return body;}
+	public String getTime() { return storyTime;}
+	public File getAudioFile() { return audio;}
+	public File getImageFile() { return image;}
+	public File getVideoFile() { return video;}
+	public int getID() { return id;}
 	
-	public String getLatitute() {
-		return latitute;
-	}
-	
-	public String getTitle() {
-		return title;
-	}
-	
-	public String getBody() {
-		return body;
-	}
-	
-	public String getTime() {
-		return storyTime;
-	}
-	
-	public File getAudioFile() {
-		return audio;
-	}
-	
-	public File getImageFile() {
-		return image;
-	}
-	
-	public File getVideoFile() {
-		return video;
-	}
 	
 	public void setLongitude(String longitude) {
 		this.longitude = longitude;
@@ -94,12 +73,12 @@ public class Record {
 	
 	public void setAudioFile(String audioPath) {
 		if(audio != null) audio = null;
-		audio = new File(audioPath);
+			audio = new File(audioPath);
 	}
 	
 	public void setImageFile(String imagePath) {
 		if(image != null) image = null;
-		image = new File(imagePath);
+			image = new File(imagePath);
 	}
 	
 	public void setVideoFile(String videoPath) {
@@ -112,7 +91,4 @@ public class Record {
 	}
 	
 	
-	public int getID() {
-		return id;
-	}
 }
