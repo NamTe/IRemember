@@ -2,8 +2,6 @@ package fu.agile.iremember;
 
 import java.io.File;
 
-import android.text.format.Time;
-
 public class Card {
 	private int id;
 	private String title;
