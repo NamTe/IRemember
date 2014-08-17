@@ -1,6 +1,8 @@
 package fu.agile.iremember;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,15 +16,18 @@ import android.widget.*;
 public class MainActivity extends Activity implements  android.view.View.OnClickListener {
 
 
-	Button btAdd;
-	Animation animBounce;
+	DataBase db;
+	private Button btAdd;
+	private Animation animBounce;
+	private ListView lw;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fragment_main);
 		btAdd = (Button)findViewById(R.id.btAdd);
 		btAdd.setOnClickListener(this);
-		File dir = new File("/mnt/sdcard/IRemember");
+		File dir = new File(getString(R.string._mnt_sdcard_iremember));
+		lw = (ListView)findViewById(R.id.lwListRemember);
 		File phtotoDir = new File(getString(R.string._mnt_sdcard_iremember_photo));
 		File videoDir = new File(getString(R.string._mnt_sdcard_iremember_video));
 		File audioRecorder = new File(getString(R.string._mnt_sdcard_iremember_audio));
@@ -37,6 +42,29 @@ public class MainActivity extends Activity implements  android.view.View.OnClick
 		}
 		if(audioRecorder.isDirectory() == false) {
 			createNewDir(audioRecorder);
+		}
+		
+		db = new DataBase(this);
+		display();
+		
+		
+		
+	}
+	
+	public void display() {
+		List<Record> RecordList = new ArrayList<Record>();
+		List<String> listString = new ArrayList<String>();
+		RecordList = db.getAllRecords();
+		for(Record d : RecordList) {
+			listString.add(d.getTitle());
+		}
+		ArrayAdapter<String> mainAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,listString);
+		lw.setAdapter(mainAdapter);
+	}
+	
+	protected void onActivityResult(int requestCode, int resultCode, Intent data){
+		if(resultCode == RESULT_OK) {
+			display();
 		}
 	}
 	
@@ -81,7 +109,7 @@ public class MainActivity extends Activity implements  android.view.View.OnClick
 				animBounce = AnimationUtils.loadAnimation(this, R.anim.bounce);
 				findViewById(R.id.btAdd).startAnimation(animBounce);
 				Intent intent = new Intent(MainActivity.this,AddScreen.class);
-				startActivity(intent);
+				startActivityForResult(intent, 0);
 			}break;
 	
 			default:

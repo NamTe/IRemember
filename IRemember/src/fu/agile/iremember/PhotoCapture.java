@@ -28,13 +28,15 @@ public class PhotoCapture extends Activity implements OnClickListener {
 	static final int REQUEST_TAKE_PHOTO = 1;
 	static final int REQUEST_PICK_PHTO = 100;
 	static final int ACTION_TAKE_VIDEO = 2;
-	Button btSave;
-	String photoPath;
-	String videoPath;
-	ImageView mImageView;
-	VideoView mVideoView;
-	int caseIntent;
-	Uri mVideoUri;
+	private Button btSave;
+	private Button btCancel;
+	private String photoPath;
+	private String videoPath;
+	private ImageView mImageView;
+	private VideoView mVideoView;
+	private int actionCase;
+	private int caseIntent;
+	private Uri mVideoUri;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -43,14 +45,19 @@ public class PhotoCapture extends Activity implements OnClickListener {
 		mVideoView = (VideoView) findViewById(R.id.videoView1);
 		btSave = (Button) findViewById(R.id.btSaveImage);
 		btSave.setOnClickListener(this);
+		btCancel = (Button) findViewById(R.id.btCancelSaveImage);
+		btCancel.setOnClickListener(this);
 		Intent intent = getIntent();
 		caseIntent = intent.getIntExtra("key",-1) == -1 ? intent.getIntExtra("Video", -1) : intent.getIntExtra("key",-1);
 		if(caseIntent == 1) {
 			takePicture();
+			actionCase = 0;
 		} else if(caseIntent == 0) {
 			getPictureFormGallery();
+			actionCase = 1;
 		} else {
 			TakeVideoIntent();
+			actionCase = 2;
 		}
 	}
 	
@@ -152,13 +159,19 @@ public class PhotoCapture extends Activity implements OnClickListener {
 		switch(v.getId()) {
 			case R.id.btSaveImage : {
 				Intent returnIntent = new Intent();
-				if(photoPath != null) {
+				if(actionCase == 0 || actionCase == 1) {
 					returnIntent.putExtra("resultOfPhoto",photoPath);
 				} else {
-					returnIntent.putExtra("resultOfVideo",photoPath);
+					returnIntent.putExtra("resultOfVideo",videoPath);
 				}
 				
 				setResult(RESULT_OK,returnIntent);     
+				finish();
+				break;
+			}
+			case R.id.btCancelSaveImage : {
+				Intent returnIntent = new Intent();
+				setResult(RESULT_CANCELED,returnIntent);   
 				finish();
 				break;
 			}

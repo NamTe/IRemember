@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,7 +33,7 @@ public class Recording extends Activity implements OnClickListener {
 		setContentView(R.layout.activity_recording);
 		btPlay = (Button) findViewById(R.id.btPlayRecorder);
 		btRecorder = (Button)findViewById(R.id.btRecorder);
-		btSave = (Button)findViewById(R.id.btSaveRecorder);
+		btSave = (Button)findViewById(R.id.btGetlocation);
 		btPlay.setOnClickListener(this);
 		btRecorder.setOnClickListener(this);
 		btSave.setOnClickListener(this);
@@ -89,9 +90,12 @@ public class Recording extends Activity implements OnClickListener {
 					
 				}	
 			}break;
-			case R.id.btSaveRecorder : {
+			case R.id.btGetlocation : {
 				Intent intent = new Intent();
+				intent.putExtra("AudioPath", audioPath);
+				Log.d("AUDIO", audioPath);
 				setResult(RESULT_OK, intent);
+				finish();
 				break;
 			}
 		}
@@ -110,7 +114,7 @@ public class Recording extends Activity implements OnClickListener {
         try {
         	mRecoder.prepare();
         } catch (IOException e) {
-            Toast.makeText(getApplicationContext(), "SomeThing went wrong", Toast.LENGTH_LONG);
+            Toast.makeText(getApplicationContext(), "SomeThing went wrong", Toast.LENGTH_LONG).show();
         }
 
         mRecoder.start();
@@ -130,7 +134,7 @@ public class Recording extends Activity implements OnClickListener {
             mPlayer.prepare();
             mPlayer.start();
         } catch (IOException e) {
-        	Toast.makeText(getApplicationContext(), "SomeThing went wrong", Toast.LENGTH_LONG);
+        	Toast.makeText(getApplicationContext(), "SomeThing went wrong", Toast.LENGTH_LONG).show();
         }
     }
 	

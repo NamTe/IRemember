@@ -37,6 +37,14 @@
             android:text="@string/btSaveImage"
             android:layout_centerHorizontal="true" />
         
+        <Button 
+            android:id="@+id/btCancelSaveImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:text="@string/btCancelSaveImage"
+            android:layout_toRightOf="@+id/btSaveImage" />
+        
     </RelativeLayout>
 
 </RelativeLayout>

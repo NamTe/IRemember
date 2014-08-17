@@ -38,5 +38,6 @@
     <string name="title_activity_recording">Recording</string>
     <string name="_mnt_sdcard_iremember">/mnt/sdcard/IRemember</string>
     <string name="_mnt_sdcard_iremember_audio">/mnt/sdcard/IRemember/Audio</string>
+    <string name="btCancelSaveImage">Cancel</string>
 
 </resources>
