@@ -8,20 +8,36 @@
     <string name="btAdd">ADD</string>
     <string name="etFilter">Text Filter</string>
     <string name="title_activity_add_screen">AddScreen</string>
-	<string name="title">Title</string>
-	<string name="body">Body</string>
-	<string name="addAudioLink">Audio Link</string>
-	<string name="AudioButton">Add Audio</string>
-	<string name="Addvideo">Video Link</string>
-	<string name="addVideoLink">Add Video</string>
-	<string name="imageName">Image Name</string>
-	<string name="btAddPhoto">Add Photo</string>
-	<string name="storyTime">Story Time</string>
-	<string name="clickText">Click Text To Set</string>
-	<string name="Location">Location</string>
-	<string name="btLocation">Get Location</string>
-	<string name="btCreate">Create</string>
-	<string name="btClear">Clear</string>
-	<string name="btCancel">Cancel</string>
-	<string name="location">0</string>
+    <string name="title">Title</string>
+    <string name="body">Body</string>
+    <string name="addAudioLink">Audio Link</string>
+    <string name="AudioButton">Add Audio</string>
+    <string name="Addvideo">Video Link</string>
+    <string name="addVideoLink">Add Video</string>
+    <string name="imageName">Image Name</string>
+    <string name="btAddPhoto">Add Photo</string>
+    <string name="storyTime">Story Time</string>
+    <string name="clickText">Click Text To Set</string>
+    <string name="Location">Location</string>
+    <string name="btLocation">Get Location</string>
+    <string name="btCreate">Create</string>
+    <string name="btClear">Clear</string>
+    <string name="btCancel">Cancel</string>
+    <string name="location">0</string>
+    <string name="title_activity_photo_capture">PhotoCapture</string>
+    <string name="btSaveImage">Save</string>
+    <string name="new_game_title">Option</string>
+
+    <array name="Option_Name">
+        <item>From Gellery</item>
+        <item>Camera</item>
+    </array>
+
+    <string name="_mnt_sdcard_iremember_photo">/mnt/sdcard/IRemember/Photo</string>
+    <string name="_mnt_sdcard_iremember_video">/mnt/sdcard/IRemember/Video</string>
+    <string name="title_activity_recording">Recording</string>
+    <string name="_mnt_sdcard_iremember">/mnt/sdcard/IRemember</string>
+    <string name="_mnt_sdcard_iremember_audio">/mnt/sdcard/IRemember/Audio</string>
+    <string name="btCancelSaveImage">Cancel</string>
+
 </resources>
