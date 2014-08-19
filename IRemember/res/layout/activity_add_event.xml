@@ -133,8 +133,9 @@
 
         <ImageView
             android:id="@+id/audioCard"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:scaleType="fitXY"
             android:src="@drawable/card" />
 
          <TextView
@@ -206,8 +207,9 @@
 
         <ImageView
             android:id="@+id/imageCard"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:scaleType="fitXY"
             android:src="@drawable/card" />
 
         <TextView
@@ -261,6 +263,7 @@
                 android:id="@+id/btCameraImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:scaleType="fitXY"
                 android:layout_alignParentRight="true"
                 android:background="@android:color/transparent"
                 android:paddingRight="20dp"
@@ -289,8 +292,9 @@
 
         <ImageView
             android:id="@+id/videoCard"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:scaleType="fitXY"
             android:src="@drawable/card" />
 
          <TextView
@@ -365,8 +369,9 @@
 
         <ImageView
             android:id="@+id/timeCard"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:scaleType="fitXY"
             android:src="@drawable/card" />
 
         <TextView
@@ -413,8 +418,9 @@
 
         <ImageView
             android:id="@+id/locationCard"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:scaleType="fitXY"
             android:src="@drawable/card" />
 
         <TextView
@@ -464,15 +470,16 @@
 
 <RelativeLayout
     android:layout_width="fill_parent"
-    android:layout_height="80dp" 
+    android:layout_height="75dp" 
  	android:layout_alignParentBottom="true">
 
     <ImageView
         android:id="@+id/actionbar"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:scaleType="fitXY"
         android:layout_alignParentBottom="true"
-        android:src="@drawable/card" />
+        android:src="@drawable/actionbar" />
 
     <ImageButton
         android:id="@+id/btClear"
@@ -481,9 +488,15 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:background="@drawable/bt_clear" />
-    
+    <ImageView 
+        android:id="@+id/bt_clear_effect" 
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignLeft="@+id/btClear"
+        android:background="@drawable/bt_clear_effect"/>   
+        
     <ImageButton
-        android:id="@+id/btCreate"
+        android:id="@+id/btCreateEvent"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_alignParentTop="true"
@@ -491,8 +504,29 @@
         android:paddingRight="40dp"
         android:background="@drawable/bt_create" />
     
+     <ImageView 
+        android:id="@+id/bt_create_effect" 
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignLeft="@+id/btCreateEvent"
+        android:background="@drawable/bt_create_effect"/>   
+        
+    <ImageButton
+        android:id="@+id/btCancel"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/btClear"
+        android:paddingRight="40dp"
+        android:background="@drawable/bt_cancel" />
     
-
+	<ImageView 
+        android:id="@+id/bt_cancel_effect" 
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignLeft="@+id/btCancel"
+        android:background="@drawable/bt_cancel_effect"/>
+	
 </RelativeLayout>
 
 </RelativeLayout>

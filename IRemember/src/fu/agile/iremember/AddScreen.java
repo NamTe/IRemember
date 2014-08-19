@@ -38,12 +38,16 @@ public class AddScreen extends Activity implements OnClickListener , LocationLis
 	private ImageButton create;
 	private ImageButton btAddVideo;
 	private ImageButton btAddImage;
+	private ImageButton btOpenCamera;
 	private ImageButton btAddAudio;
 	private ImageButton btGetLocation;
+	private ImageButton btCreate;
+	private ImageButton btClear;
+	private ImageButton btCancel;
 	Button bt;
 	
 	//Edit Text Declare
-	private EditText etImaegName;
+	private EditText etImageName;
 	private EditText etTitle;
 	private EditText etBody;
 	private EditText inputDialog;
@@ -111,15 +115,23 @@ public class AddScreen extends Activity implements OnClickListener , LocationLis
 		btAddAudio.setOnClickListener(this);
 		btAddImage = (ImageButton) findViewById(R.id.btAddImage);
 		btAddImage.setOnClickListener(this);
+		btOpenCamera = (ImageButton) findViewById(R.id.btCameraImage);
+		btOpenCamera.setOnClickListener(this);
+		btCreate = (ImageButton) findViewById(R.id.btCreateEvent);
+		btCreate.setOnClickListener(this);
+		btClear = (ImageButton) findViewById(R.id.btClear);
+		btClear.setOnClickListener(this);
+		btCancel = (ImageButton) findViewById(R.id.btCancel);
+		btCancel.setOnClickListener(this);
 		anim = AnimationUtils.loadAnimation(this, R.anim.zoom_animation);
 		
 		bt = (Button) findViewById(R.id.button2);
 		bt.setOnClickListener(this);
 //		btGetLocation = (ImageButton) findViewById(R.id.btGetlocation);
 //		btGetLocation.setOnClickListener(this);
-//		etImaegName = (EditText) findViewById(R.id.etImageName);
-//		etTitle = (EditText) findViewById(R.id.etTitle);
-//		etBody = (EditText) findViewById(R.id.etBody);
+//		etImageName = (EditText) findViewById(R.id.etImageName);
+		etTitle = (EditText) findViewById(R.id.title);
+		etBody = (EditText) findViewById(R.id.body);
 //		create = (ImageButton) findViewById(R.id.btCreate);
 //		create.setOnClickListener(this);
 //		TimeView = (TextView)findViewById(R.id.twSetTime);
@@ -127,7 +139,7 @@ public class AddScreen extends Activity implements OnClickListener , LocationLis
 //		longitudeField = (TextView)findViewById(R.id.twLongitude);
 //		latituteField = (TextView)findViewById(R.id.twLatitude);
 //		db = new DataBase(this);
-//		
+		
 ////
 ////		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 ////		Criteria criteria = new Criteria();
@@ -245,6 +257,11 @@ public class AddScreen extends Activity implements OnClickListener , LocationLis
 				findViewById(R.id.imagebtImage).startAnimation(anim);
 				//openNewGameDialog();
 			} break;
+			case R.id.btCameraImage: {
+				
+				openCamera(TAKE_PICTURE_CODE);
+			} break;
+
 			case R.id.btAddVideo : {
 				
 //				Intent intent = new Intent(AddScreen.this,PhotoCapture.class);
@@ -260,31 +277,40 @@ public class AddScreen extends Activity implements OnClickListener , LocationLis
 				findViewById(R.id.imagebtAudio).startAnimation(anim);
 				break;
 			}
-			case R.id.btCreate : {
-				newRecord = new Card(etTitle.getText().toString(), etBody.getText().toString(), time.toString(), audioPath.toString(), imagePath.toString(), videoPath.toString(),latitute,longitude);
-				db.insertNewRecord(newRecord);
-				Intent intent = new Intent();
-				setResult(RESULT_OK, intent);
-				finish();
+			case R.id.btCreateEvent : {
+//				newRecord = new Card(etTitle.getText().toString(), etBody.getText().toString(), time.toString(), audioPath.toString(), imagePath.toString(), videoPath.toString(),latitute,longitude);
+//				db.insertNewRecord(newRecord);
+//				Intent intent = new Intent();
+//				setResult(RESULT_OK, intent);
+//				finish();
+				findViewById(R.id.bt_create_effect).startAnimation(anim);
 				break;
 			} case R.id.twSetTime : {
 				TimeView.setText(time);
 				break;
-			} case R.id.btCancelCreate : {
-				etImaegName.setText("");
+			} case R.id.btClear : {
+				findViewById(R.id.title).requestFocus();
+//				etImageName.setText("");
 				etBody.setText("");
 				etTitle.setText("");
-				latituteField.setText("0");
-				longitudeField.setText("0");
+//				latituteField.setText("0");
+//				longitudeField.setText("0");
+				findViewById(R.id.bt_clear_effect).startAnimation(anim);
 				break;
-			}case R.id.btGetlocation : {
+			} 
+			case R.id.btCancel: {
+				findViewById(R.id.bt_cancel_effect).startAnimation(anim);
+				super.onBackPressed();
+				break;
+			}
+				case R.id.btGetlocation : {
+			
 				Toast.makeText(getApplicationContext(), "Obtain new location", Toast.LENGTH_LONG).show();
 				latituteField.setText(latitute);
 			    longitudeField.setText(longitude);
 				break;
 			}
 			case R.id.button2: {
-				Toast t = Toast.makeText(this, "test", Toast.LENGTH_LONG);
 				findViewById(R.id.body).setVisibility(View.GONE);
 				findViewById(R.id.imageAddLayout).setVisibility(View.GONE);
 				findViewById(R.id.videoAddLayout).setVisibility(View.GONE);
@@ -342,11 +368,11 @@ public class AddScreen extends Activity implements OnClickListener , LocationLis
 //		ob.show();
 //	}
 //	
-//	public void openCamera(int which) {
-//		Intent intent = new Intent(AddScreen.this,PhotoCapture.class);
-//		intent.putExtra("key", which);
-//		startActivityForResult(intent, TAKE_PICTURE_CODE);
-//	}
+	public void openCamera(int which) {
+		Intent intent = new Intent(AddScreen.this,PhotoCapture.class);
+		intent.putExtra("key", which);
+		startActivityForResult(intent, TAKE_PICTURE_CODE);
+	}
 //
 //
 //	@Override
