@@ -24,7 +24,6 @@
         </activity>
         <activity
             android:name="fu.agile.iremember.AddScreen"
-            android:theme="@android:style/Theme.Dialog"
             android:label="@string/title_activity_add_screen" >
         </activity>
     </application>

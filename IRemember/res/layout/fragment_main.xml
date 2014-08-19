@@ -42,16 +42,25 @@
 		    android:layout_alignParentLeft="true"
         	android:layout_alignParentRight="true"
 		    android:orientation="horizontal" >
-
-			<Button
+        
+			<ImageButton
+			    android:id="@+id/btAdd"
 			    android:layout_centerHorizontal="true"
 			    android:layout_gravity="center"
-			    android:id="@+id/btAdd"
 			    android:layout_width="50dp"
 			    android:layout_height="50dp"
 			    android:layout_marginBottom="5dp"
 			    android:layout_marginTop="5dp"
-			    android:background="@drawable/add" />
+			    android:background="@drawable/bt_add" />
+
+			<ImageView
+			    android:id="@+id/bt_add_effect"
+			    android:layout_width="50dp"
+			    android:layout_height="50dp"
+			    android:layout_marginBottom="5dp"
+			    android:layout_marginTop="5dp"
+			    android:layout_alignLeft="@+id/btAdd"
+			    android:background="@drawable/bt_add_effect" />
  
 		</RelativeLayout>
 </RelativeLayout>

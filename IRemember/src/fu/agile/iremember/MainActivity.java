@@ -17,20 +17,21 @@ public class MainActivity extends Activity implements  android.view.View.OnClick
 
 
 	DataBase db;
-	private Button btAdd;
-	private Animation animBounce;
+	private ImageButton btAdd;
+	private Animation anim;
 	private ListView lw;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fragment_main);
-		btAdd = (Button)findViewById(R.id.btAdd);
+		btAdd = (ImageButton)findViewById(R.id.btAdd);
 		btAdd.setOnClickListener(this);
 		File dir = new File(getString(R.string._mnt_sdcard_iremember));
 		lw = (ListView)findViewById(R.id.lwListRemember);
 		File phtotoDir = new File(getString(R.string._mnt_sdcard_iremember_photo));
 		File videoDir = new File(getString(R.string._mnt_sdcard_iremember_video));
 		File audioRecorder = new File(getString(R.string._mnt_sdcard_iremember_audio));
+		anim = AnimationUtils.loadAnimation(this, R.anim.zoom_animation);
 		if(dir.isDirectory() == false) {
 			createNewDir(dir);
 		}
@@ -106,8 +107,7 @@ public class MainActivity extends Activity implements  android.view.View.OnClick
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 			case R.id.btAdd: {
-				animBounce = AnimationUtils.loadAnimation(this, R.anim.bounce);
-				findViewById(R.id.btAdd).startAnimation(animBounce);
+				findViewById(R.id.bt_add_effect).startAnimation(anim);
 				Intent intent = new Intent(MainActivity.this,AddScreen.class);
 				startActivityForResult(intent, 0);
 			}break;

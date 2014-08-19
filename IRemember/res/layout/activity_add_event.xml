@@ -1,6 +1,11 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+<ScrollView 
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:layout_marginBottom="40dp"
     android:fillViewport="true">
 
 <LinearLayout 
@@ -16,8 +21,9 @@
 
         <ImageView
             android:id="@+id/titleCard"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:scaleType="fitXY"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:src="@drawable/card" />
@@ -61,8 +67,7 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:visibility="gone" >
+        android:ems="10" >
 
         <requestFocus />
     </EditText>
@@ -74,8 +79,9 @@
 
         <ImageView
             android:id="@+id/bodyCard"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:scaleType="fitXY"
             android:src="@drawable/card" />
 
         <TextView
@@ -251,22 +257,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <ImageButton 
-                android:id="@+id/btCameraImage" 
-                android:layout_width="wrap_content" 
-                android:layout_height="wrap_content" 
-                android:layout_alignParentRight="true" 
-                android:paddingRight="20dp" 
-                android:src="@drawable/bt_add_content" />
+            <ImageButton
+                android:id="@+id/btCameraImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@android:color/transparent"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp"
+                android:src="@drawable/bt_camera" />
 
-            <ImageButton 
-                android:id="@+id/btFromFile" 
-                android:layout_width="wrap_content" 
-                android:layout_height="wrap_content" 
-                android:layout_alignParentRight="true" 
-                android:layout_below="@+id/btCameraImage" 
-                android:paddingRight="20dp" 
-                android:src="@drawable/bt_add_content" />
+            <ImageButton
+                android:id="@+id/btFromFile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/btCameraImage"
+                android:background="@android:color/transparent"   
+                android:paddingRight="20dp"
+                android:paddingTop="10dp"
+                android:src="@drawable/bt_fromfile" />
+            
+            
 
          </RelativeLayout>
          
@@ -323,22 +335,26 @@
         	android:layout_below="@+id/videoCard" 
         	android:visibility="gone">
 
-            <ImageButton 
-                android:id="@+id/btCameraVideo" 
-                android:layout_width="wrap_content" 
-                android:layout_height="wrap_content" 
-                android:layout_alignParentRight="true" 
-                android:paddingRight="20dp" 
-                android:src="@drawable/bt_add_content" />
+            <ImageButton
+                android:id="@+id/btCameraVideo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@android:color/transparent"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp"
+                android:src="@drawable/bt_camera" />
 
-            <ImageButton 
-                android:id="@+id/btFromFileVideo" 
-                android:layout_width="wrap_content" 
-                android:layout_height="wrap_content" 
-                android:layout_alignParentRight="true" 
-                android:layout_below="@+id/btCameraVideo" 
-                android:paddingRight="20dp" 
-                android:src="@drawable/bt_add_content" />
+            <ImageButton
+                android:id="@+id/btFromFileVideo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/btCameraVideo"
+                android:background="@android:color/transparent"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp"
+                android:src="@drawable/bt_fromfile" />
 
          </RelativeLayout>
          
@@ -445,3 +461,38 @@
 </LinearLayout>
 
 </ScrollView>
+
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="80dp" 
+ 	android:layout_alignParentBottom="true">
+
+    <ImageView
+        android:id="@+id/actionbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/card" />
+
+    <ImageButton
+        android:id="@+id/btClear"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/bt_clear" />
+    
+    <ImageButton
+        android:id="@+id/btCreate"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/btClear"
+        android:paddingRight="40dp"
+        android:background="@drawable/bt_create" />
+    
+    
+
+</RelativeLayout>
+
+</RelativeLayout>
