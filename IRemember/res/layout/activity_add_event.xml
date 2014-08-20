@@ -255,9 +255,11 @@
         	android:visibility="gone">
 
             <Gallery
-                android:id="@+id/imageGallary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:id="@+id/imageGallery"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp" 
+                android:layout_toLeftOf="@+id/btCameraImage"/>
 
             <ImageButton
                 android:id="@+id/btCameraImage"
@@ -409,7 +411,11 @@
         
     </RelativeLayout>
 
-    
+    <TimePicker
+        android:id="@+id/timePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
          
     <RelativeLayout
         android:layout_width="match_parent"
@@ -488,6 +494,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:background="@drawable/bt_clear" />
+    
     <ImageView 
         android:id="@+id/bt_clear_effect" 
         android:layout_width="60dp"
@@ -501,7 +508,7 @@
         android:layout_height="60dp"
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/btClear"
-        android:paddingRight="40dp"
+        android:layout_marginRight="30dp"
         android:background="@drawable/bt_create" />
     
      <ImageView 
@@ -517,7 +524,7 @@
         android:layout_height="60dp"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/btClear"
-        android:paddingRight="40dp"
+        android:layout_marginLeft="30dp"
         android:background="@drawable/bt_cancel" />
     
 	<ImageView 

@@ -11,6 +11,7 @@ import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -22,11 +23,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Gallery;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +47,7 @@ public class AddScreen extends Activity implements OnClickListener , LocationLis
 	private ImageButton btAddImage;
 	private ImageButton btOpenCamera;
 	private ImageButton btAddAudio;
+	private ImageButton btAddTime;
 	private ImageButton btGetLocation;
 	private ImageButton btCreate;
 	private ImageButton btClear;
@@ -67,6 +75,8 @@ public class AddScreen extends Activity implements OnClickListener , LocationLis
 	private String longitude;
 	private String provider;
 	
+	//Gallery
+	private Gallery gal;
 	//Animation Declaration
 	private Animation anim;
 	//Something else
@@ -77,6 +87,8 @@ public class AddScreen extends Activity implements OnClickListener , LocationLis
 	static private int TAKE_PICTURE_CODE = 1;
 	static private int TAKE_VIDEO_CODE = 2;
 	static private int TAKE_AUDIO_RECORDER = 3;
+	
+	
 	@Override
 	public void onLocationChanged(Location location) {
 		// TODO Auto-generated method stub
@@ -117,12 +129,17 @@ public class AddScreen extends Activity implements OnClickListener , LocationLis
 		btAddImage.setOnClickListener(this);
 		btOpenCamera = (ImageButton) findViewById(R.id.btCameraImage);
 		btOpenCamera.setOnClickListener(this);
+		btAddTime = (ImageButton) findViewById(R.id.btAddTime);
+		btAddTime.setOnClickListener(this);
 		btCreate = (ImageButton) findViewById(R.id.btCreateEvent);
 		btCreate.setOnClickListener(this);
 		btClear = (ImageButton) findViewById(R.id.btClear);
 		btClear.setOnClickListener(this);
 		btCancel = (ImageButton) findViewById(R.id.btCancel);
 		btCancel.setOnClickListener(this);
+		gal = (Gallery) findViewById(R.id.imageGallery);
+		gal.setAdapter(new ImageAdapter(this));
+
 		anim = AnimationUtils.loadAnimation(this, R.anim.zoom_animation);
 		
 		bt = (Button) findViewById(R.id.button2);
@@ -239,6 +256,48 @@ public class AddScreen extends Activity implements OnClickListener , LocationLis
 //		}
 //
 //
+	 public class ImageAdapter extends BaseAdapter {
+	        private Context context;
+	        private int itemBackground;
+	        Integer[] images = {
+	    			R.drawable.bt_add,
+	    			R.drawable.bt_create
+	    	};
+	        public ImageAdapter(Context c) 
+	        {
+	            context = c;
+	        }
+
+			@Override
+			public int getCount() {
+				// TODO Auto-generated method stub
+				return images.length;
+			}
+
+			@Override
+			public Object getItem(int position) {
+				// TODO Auto-generated method stub
+				return position;
+			}
+
+			@Override
+			public long getItemId(int position) {
+				// TODO Auto-generated method stub
+				return position;
+			}
+
+			@Override
+			public View getView(int position, View convertView, ViewGroup parent) {
+				// TODO Auto-generated method stub
+				 ImageView i = new ImageView(context);
+
+			     i.setImageResource(images[position]);
+			     i.setLayoutParams(new Gallery.LayoutParams(200, 200));
+			     i.setScaleType(ImageView.ScaleType.FIT_XY);
+			     return i;
+			    }
+	 }
+	 
 	@Override
 	public void onClick(View v) {
 		
@@ -255,7 +314,6 @@ public class AddScreen extends Activity implements OnClickListener , LocationLis
 			case R.id.btAddImage : {
 				findViewById(R.id.imageAddLayout).setVisibility(View.VISIBLE);
 				findViewById(R.id.imagebtImage).startAnimation(anim);
-				//openNewGameDialog();
 			} break;
 			case R.id.btCameraImage: {
 				
@@ -285,8 +343,10 @@ public class AddScreen extends Activity implements OnClickListener , LocationLis
 //				finish();
 				findViewById(R.id.bt_create_effect).startAnimation(anim);
 				break;
-			} case R.id.twSetTime : {
-				TimeView.setText(time);
+			} case R.id.btAddTime : {
+				//TimeView.setText(time);
+				findViewById(R.id.timePicker).setVisibility(View.VISIBLE);
+				findViewById(R.id.imagebtTime).startAnimation(anim);
 				break;
 			} case R.id.btClear : {
 				findViewById(R.id.title).requestFocus();
@@ -347,32 +407,36 @@ public class AddScreen extends Activity implements OnClickListener , LocationLis
 //	}
 
 	
-//	public void openNewGameDialog() {
-//		
-//		Builder ob = new AlertDialog.Builder(this);
-//		ob.setTitle(R.string.new_game_title);
-//		ob.setItems(R.array.Option_Name, new DialogInterface.OnClickListener() {
-//			
-//			@Override
-//			public void onClick(DialogInterface dialog, int which) {
-//				// TODO Auto-generated method stub
-//				openCamera(which);
-//			}
-//		});
-//		
-//		inputDialog = new EditText(AddScreen.this);	
-//		inputDialog.setHint("Enter Image Name Here");
-//		inputDialog.setGravity(Gravity.CENTER);
-//		ob.setView(inputDialog);
-//		inputDialog.setBackgroundColor(color.holo_blue_bright);
-//		ob.show();
-//	}
-//	
+
 	public void openCamera(int which) {
 		Intent intent = new Intent(AddScreen.this,PhotoCapture.class);
 		intent.putExtra("key", which);
 		startActivityForResult(intent, TAKE_PICTURE_CODE);
 	}
+
+//	@Override
+//	public int getCount() {
+//		// TODO Auto-generated method stub
+//		return 0;
+//	}
+//
+//	@Override
+//	public Object getItem(int position) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	@Override
+//	public long getItemId(int position) {
+//		// TODO Auto-generated method stub
+//		return 0;
+//	}
+//
+//	@Override
+//	public View getView(int position, View convertView, ViewGroup parent) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 //
 //
 //	@Override
