@@ -44,7 +44,7 @@ public class PhotoCapture extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_photo_capture);
 		mImageView = (ImageView) findViewById(R.id.mImageView);
-		mVideoView = (VideoView) findViewById(R.id.videoView1);
+		mVideoView = (VideoView) findViewById(R.id.viewVideo);
 		btSave = (Button) findViewById(R.id.btSaveImage);
 		btSave.setOnClickListener(this);
 		btCancel = (Button) findViewById(R.id.btCancelSaveImage);
