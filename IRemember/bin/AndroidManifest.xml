@@ -31,23 +31,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AddScreen"
-            android:label="@string/title_activity_add_screen" >
-        </activity>
-<<<<<<< HEAD
-        <activity
-            android:name=".PhotoCapture"
-            android:label="@string/title_activity_photo_capture" >
+            android:name="fu.agile.iremember.AddScreen"
+            android:label="@string/hello_world" >
         </activity>
         <activity
             android:name=".Recording"
             android:label="@string/title_activity_recording" >
-=======
+        </activity>
         
         <activity 
             android:name="fu.agile.iremember.PhotoCapture" 
             android:label="@string/title_activity_add_screen" > 
->>>>>>> branch 'master' of https://github.com/NamTe/IRemember.git
         </activity>
     </application>
 

@@ -27,6 +27,7 @@ import android.widget.Gallery;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 public class AddScreen extends Activity implements OnClickListener, LocationListener{
@@ -68,7 +69,7 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 	private String latitute;
 	private String longitude;
 	private String provider;
-	
+	private TimePicker timePicker;
 	//Gallery
 	private Gallery gal;
 	//Animation Declaration
@@ -315,16 +316,17 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 			} 
 			case R.id.btAddTime : {
 				//TimeView.setText(time);
-				findViewById(R.id.timePicker).setVisibility(View.VISIBLE);
-				findViewById(R.id.imagebtTime).startAnimation(anim);
+//				timePicker = (TimePicker) findViewById(R.id.timePicker);
+//				timePicker.setVisibility(View.VISIBLE);
+//				findViewById(R.id.imagebtTime).startAnimation(anim);
+//				time = timePicker.getCurrentHour() + ":" + timePicker.getCurrentMinute();
+				TimeView.setText(time);
+				Log.d(tag, time);
 				break;
 			} case R.id.btClear : {
 				findViewById(R.id.title).requestFocus();
-//				etImageName.setText("");
 				etBody.setText("");
 				etTitle.setText("");
-//				latituteField.setText("0");
-//				longitudeField.setText("0");
 				findViewById(R.id.bt_clear_effect).startAnimation(anim);
 				break;
 			} 
