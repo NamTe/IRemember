@@ -52,9 +52,9 @@ public final class R {
     public static final class id {
         public static final int RelativeLayout=0x7f0a0000;
         public static final int RelativeLayout1=0x7f0a0057;
-        public static final int ScrollView1=0x7f0a003a;
-        public static final int action_settings=0x7f0a005b;
-        public static final int actionbar=0x7f0a002a;
+        public static final int ScrollView1=0x7f0a003b;
+        public static final int action_settings=0x7f0a0058;
+        public static final int actionbar=0x7f0a002b;
         public static final int audioAddLayout=0x7f0a000f;
         public static final int audioCard=0x7f0a000b;
         public static final int body=0x7f0a000a;
@@ -131,6 +131,7 @@ public final class R {
         public static final int textView7=0x7f0a0047;
         public static final int textView9=0x7f0a0049;
         public static final int timeCard=0x7f0a0021;
+        public static final int timePicker=0x7f0a0025;
         public static final int title=0x7f0a0005;
         public static final int titleCard=0x7f0a0001;
         public static final int tvCustomeStoryName=0x7f0a0059;

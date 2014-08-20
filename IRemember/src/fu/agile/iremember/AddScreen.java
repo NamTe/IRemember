@@ -6,6 +6,7 @@ import java.util.Date;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -14,11 +15,17 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Gallery;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,6 +69,8 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 	private String longitude;
 	private String provider;
 	
+	//Gallery
+	private Gallery gal;
 	//Animation Declaration
 	private Animation anim;
 	//Something else
@@ -169,6 +178,9 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 		btCancel = (ImageButton) findViewById(R.id.btCancel);
 		btCancel.setOnClickListener(this);
 		TimeView = (TextView)findViewById(R.id.textTime);
+		gal = (Gallery) findViewById(R.id.imageGallery);
+		gal.setAdapter(new ImageAdapter(this));
+
 		anim = AnimationUtils.loadAnimation(this, R.anim.zoom_animation);
 		etTitle = (EditText) findViewById(R.id.title);
 		etBody = (EditText) findViewById(R.id.body);
@@ -199,6 +211,48 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 	} 
 
 
+	 public class ImageAdapter extends BaseAdapter {
+	        private Context context;
+	        private int itemBackground;
+	        Integer[] images = {
+	    			R.drawable.bt_add,
+	    			R.drawable.bt_create
+	    	};
+	        public ImageAdapter(Context c) 
+	        {
+	            context = c;
+	        }
+
+			@Override
+			public int getCount() {
+				// TODO Auto-generated method stub
+				return images.length;
+			}
+
+			@Override
+			public Object getItem(int position) {
+				// TODO Auto-generated method stub
+				return position;
+			}
+
+			@Override
+			public long getItemId(int position) {
+				// TODO Auto-generated method stub
+				return position;
+			}
+
+			@Override
+			public View getView(int position, View convertView, ViewGroup parent) {
+				// TODO Auto-generated method stub
+				 ImageView i = new ImageView(context);
+
+			     i.setImageResource(images[position]);
+			     i.setLayoutParams(new Gallery.LayoutParams(200, 200));
+			     i.setScaleType(ImageView.ScaleType.FIT_XY);
+			     return i;
+			    }
+	 }
+	 
 	@Override
 	public void onClick(View v) {
 		
@@ -215,7 +269,6 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 			case R.id.btAddImage : {
 				findViewById(R.id.imageAddLayout).setVisibility(View.VISIBLE);
 				findViewById(R.id.imagebtImage).startAnimation(anim);
-				//openNewGameDialog();
 			} break;
 			case R.id.btCameraImage: {		
 				openCameraForImage(1);
@@ -259,8 +312,11 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 				findViewById(R.id.bt_create_effect).startAnimation(anim);
 				finish();
 				break;
-			} case R.id.btAddTime : {
-				TimeView.setText(time);
+			} 
+			case R.id.btAddTime : {
+				//TimeView.setText(time);
+				findViewById(R.id.timePicker).setVisibility(View.VISIBLE);
+				findViewById(R.id.imagebtTime).startAnimation(anim);
 				break;
 			} case R.id.btClear : {
 				findViewById(R.id.title).requestFocus();

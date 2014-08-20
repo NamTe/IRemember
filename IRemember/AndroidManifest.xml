@@ -32,15 +32,17 @@
         </activity>
         <activity
             android:name=".AddScreen"
+            android:name="fu.agile.iremember.AddScreen"
             android:label="@string/title_activity_add_screen" >
-        </activity>
-        <activity
-            android:name=".PhotoCapture"
-            android:label="@string/title_activity_photo_capture" >
         </activity>
         <activity
             android:name=".Recording"
             android:label="@string/title_activity_recording" >
+        </activity>
+        
+        <activity 
+            android:name="fu.agile.iremember.PhotoCapture" 
+            android:label="@string/title_activity_add_screen" > 
         </activity>
     </application>
 
