@@ -3,16 +3,29 @@ package fu.agile.iremember;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
+import android.widget.Toast;
 
+@SuppressLint("NewApi")
 public class MainActivity extends Activity implements  android.view.View.OnClickListener {
 
 
@@ -20,6 +33,9 @@ public class MainActivity extends Activity implements  android.view.View.OnClick
 	private ImageButton btAdd;
 	private Animation anim;
 	private ListView lw;
+	private List<Card> RecordList;
+	private List<String> stringAdapter;
+	private AutoCompleteTextView autoComplete;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -32,6 +48,8 @@ public class MainActivity extends Activity implements  android.view.View.OnClick
 		File videoDir = new File(getString(R.string._mnt_sdcard_iremember_video));
 		File audioRecorder = new File(getString(R.string._mnt_sdcard_iremember_audio));
 		anim = AnimationUtils.loadAnimation(this, R.anim.zoom_animation);
+		autoComplete = (AutoCompleteTextView)findViewById(R.id.etFilter);
+		stringAdapter = new ArrayList<String>();
 		if(dir.isDirectory() == false) {
 			createNewDir(dir);
 		}
@@ -46,21 +64,52 @@ public class MainActivity extends Activity implements  android.view.View.OnClick
 		}
 		
 		db = new DataBase(this);
-		display();
+		RecordList = new ArrayList<Card>();
+		RecordList = db.getAllRecords();
+		autoComplete.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				displaySelect(arg2);
+			}
+		});
 		
+		autoComplete.setOnEditorActionListener(new OnEditorActionListener() {
+			
+			@Override
+			public boolean onEditorAction(TextView arg0, int arg1, KeyEvent arg2) {
+				// TODO Auto-generated method stub
+				display();
+				return false;
+			}
+		});
+		display();
+		getStringAdapter();
 		
 		
 	}
 	
-	public void display() {
-		List<Card> RecordList = new ArrayList<Card>();
-		List<String> listString = new ArrayList<String>();
-		RecordList = db.getAllRecords();
-		for(Card d : RecordList) {
-			listString.add(d.getTitle());
+	public void getStringAdapter() {
+		for(Card d : RecordList) { 
+			stringAdapter.add(d.getTitle());
+			Log.d("A", stringAdapter.get(0));
 		}
-		ArrayAdapter<String> mainAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,listString);
-		lw.setAdapter(mainAdapter);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,stringAdapter);
+		autoComplete.setAdapter(adapter);
+	}
+	
+	public void displaySelect(int position) {
+		List<Card> list = new ArrayList<Card>();
+		list.add(RecordList.get(position));
+		Log.d("A", list.get(0).getTitle());
+		MyAdapter adapter = new MyAdapter(this, R.layout.list_customise, list);
+		lw.setAdapter(adapter);
+	}
+	
+	public void display() {			
+		MyAdapter adapter = new MyAdapter(this, R.layout.list_customise, RecordList);
+		lw.setAdapter(adapter);
 	}
 	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data){

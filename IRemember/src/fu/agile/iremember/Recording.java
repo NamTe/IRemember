@@ -27,6 +27,7 @@ public class Recording extends Activity implements OnClickListener {
 	private boolean startRecoding;
 	private boolean startPlay;
 	private String audioPath;
+	private A Hello;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -39,7 +40,7 @@ public class Recording extends Activity implements OnClickListener {
 		btSave.setOnClickListener(this);
 		startRecoding = false;
 		startPlay = false;
-		
+		Hello =new A();
 	}
 
 	
@@ -70,11 +71,11 @@ public class Recording extends Activity implements OnClickListener {
 			case R.id.btRecorder : {
 				if(startRecoding == false) {
 					startRecoding = true;
-					startingRecorder();
+					Hello.startingRecord();
 					btRecorder.setText("Stop Recording");
 				} else {
 					startRecoding = false;
-					stopRecording();
+					Hello.stopRecord();
 					btRecorder.setText("Record");
 				}
 				break;
@@ -92,8 +93,8 @@ public class Recording extends Activity implements OnClickListener {
 			}break;
 			case R.id.btGetlocation : {
 				Intent intent = new Intent();
-				intent.putExtra("AudioPath", audioPath);
-				Log.d("AUDIO", audioPath);
+				intent.putExtra("AudioPath", Hello.getAudioPath());
+				Log.d("AUDIO", Hello.getAudioPath());
 				setResult(RESULT_OK, intent);
 				finish();
 				break;
@@ -130,7 +131,7 @@ public class Recording extends Activity implements OnClickListener {
 	private void startPlaying() {
         mPlayer = new MediaPlayer();
         try {
-            mPlayer.setDataSource(audioPath);
+            mPlayer.setDataSource(Hello.getAudioPath());
             mPlayer.prepare();
             mPlayer.start();
         } catch (IOException e) {

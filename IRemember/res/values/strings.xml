@@ -8,6 +8,7 @@
     <string name="btAdd">ADD</string>
     <string name="etFilter">Text Filter</string>
     <string name="title_activity_add_screen">AddScreen</string>
+    <string name="title_activity_photocapture">Photo Capture</string>
     <string name="title">Title</string>
     <string name="body">Body</string>
     <string name="addAudioLink">Audio Link</string>
@@ -39,5 +40,7 @@
     <string name="_mnt_sdcard_iremember">/mnt/sdcard/IRemember</string>
     <string name="_mnt_sdcard_iremember_audio">/mnt/sdcard/IRemember/Audio</string>
     <string name="btCancelSaveImage">Cancel</string>
+    <string name="tvCustomeStoryName">Tham Quan Ha Long</string>
+	<string name="twCustomeTime">2014-18-8</string>
 
 </resources>

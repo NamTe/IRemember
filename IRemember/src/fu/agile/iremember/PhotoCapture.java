@@ -12,7 +12,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,8 +36,9 @@ public class PhotoCapture extends Activity implements OnClickListener {
 	
 	static final int REQUEST_IMAGE_CAPTURE = 1;
 	static final int REQUEST_TAKE_PHOTO = 1;
-	static final int REQUEST_PICK_PHTO = 100;
+	static final int REQUEST_PICK_PHOTO = 100;
 	static final int ACTION_TAKE_VIDEO = 2;
+	static final int REQUEST_PICK_VIDEO = 3;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -57,9 +57,12 @@ public class PhotoCapture extends Activity implements OnClickListener {
 		} else if(caseIntent == 0) {
 			getPictureFormGallery();
 			actionCase = 1;
-		} else {
+		} else if(caseIntent == 2){
 			TakeVideoIntent();
 			actionCase = 2;
+		} else {
+			getVideoFromGallery();
+			actionCase = 3;
 		}
 	}
 	
@@ -68,7 +71,7 @@ public class PhotoCapture extends Activity implements OnClickListener {
 		if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
 			setPic();
 	    }
-		else if(requestCode == REQUEST_PICK_PHTO && data != null && data.getData() != null) {
+		else if(requestCode == REQUEST_PICK_PHOTO && data != null && data.getData() != null) {
 	        Uri _uri = data.getData();
 	        //User had pick an image.
 	        Cursor cursor = getContentResolver().query(_uri, new String[] { android.provider.MediaStore.Images.ImageColumns.DATA }, null, null, null);
@@ -81,10 +84,18 @@ public class PhotoCapture extends Activity implements OnClickListener {
 	    } else if(requestCode == ACTION_TAKE_VIDEO && data != null && data.getData() != null) {
 	    	mVideoUri = data.getData();
 			mVideoView.setVideoURI(mVideoUri);
-			Log.d("VIDEO", videoPath);
 			mVideoView.setVisibility(View.VISIBLE);
 			mImageView.setVisibility(View.INVISIBLE);
 			mVideoView.start();
+	    } else if(requestCode == REQUEST_PICK_VIDEO && data != null && data.getData() != null) {
+	    	mVideoUri = data.getData();
+			mVideoView.setVideoURI(mVideoUri);
+			mVideoView.setVisibility(View.VISIBLE);
+			mImageView.setVisibility(View.INVISIBLE);
+			mVideoView.start();
+			Cursor cursor = getContentResolver().query(mVideoUri, new String[] { android.provider.MediaStore.Images.ImageColumns.DATA }, null, null, null);
+	        cursor.moveToFirst();
+	        videoPath = cursor.getString(0);
 	    }
 	}
 	
@@ -150,9 +161,9 @@ public class PhotoCapture extends Activity implements OnClickListener {
 	}
 	
 	public void getPictureFormGallery () {
-		Intent i = new Intent(Intent.ACTION_PICK,
-	               android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-		startActivityForResult(i, REQUEST_PICK_PHTO);  
+		Intent takePictureByIntent = new Intent(Intent.ACTION_GET_CONTENT);
+		takePictureByIntent.setType("image/*");
+		startActivityForResult(takePictureByIntent, REQUEST_PICK_PHOTO);  
 	}
 
 	@Override
@@ -172,8 +183,16 @@ public class PhotoCapture extends Activity implements OnClickListener {
 				break;
 			}
 			case R.id.btCancelSaveImage : {
+				if(actionCase == 0) {
+					File delete = new File(photoPath);
+					delete.delete();
+				}
+				if(actionCase == 3) {
+					File delete = new File(videoPath);
+					delete.delete();
+				}
 				Intent returnIntent = new Intent();
-				setResult(RESULT_CANCELED,returnIntent);   
+				setResult(RESULT_CANCELED,returnIntent); 
 				finish();
 				break;
 			}
@@ -201,6 +220,12 @@ public class PhotoCapture extends Activity implements OnClickListener {
 		takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(Video));
 		startActivityForResult(takeVideoIntent, ACTION_TAKE_VIDEO);
 		videoPath = Video.getAbsolutePath();
+	}
+	
+	public void getVideoFromGallery() {
+		Intent takeVideo = new Intent(Intent.ACTION_GET_CONTENT);
+		takeVideo.setType("video/*");
+		startActivityForResult(takeVideo, REQUEST_PICK_VIDEO);  
 	}
 	
 }

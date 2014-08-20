@@ -2,9 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-
     tools:context="fu.agile.iremember.MainActivity$PlaceholderFragment"
     android:background="@drawable/bg"
+    
      >
 
     <LinearLayout 
@@ -14,18 +14,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
-        <EditText 
+        <AutoCompleteTextView 
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/etFilter"
+            android:maxLines="1"
             android:hint="@string/etFilter"
             />
 
     </LinearLayout>
 		<ListView 
-		    android:paddingLeft="20dp"
-        	android:paddingRight="20dp"
+		    android:divider="#b5b5b5"
+		    android:dividerHeight="0dp"
 		    android:layout_above="@+id/btFunction"
 		    android:layout_below="@+id/layout1"
 		    android:id="@+id/lwListRemember"
