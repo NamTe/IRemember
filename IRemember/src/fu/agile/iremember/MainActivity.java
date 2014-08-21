@@ -159,6 +159,7 @@ public class MainActivity extends Activity implements  android.view.View.OnClick
 				findViewById(R.id.bt_add_effect).startAnimation(anim);
 				Intent intent = new Intent(MainActivity.this,AddScreen.class);
 				startActivityForResult(intent, 0);
+			
 			}break;
 	
 			default:

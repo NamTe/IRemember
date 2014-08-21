@@ -1,0 +1,337 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+<ScrollView 
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_marginBottom="40dp"
+    android:fillViewport="true">
+
+<LinearLayout 
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/RelativeLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" 
+        android:background="@anim/layout_shadow">
+
+        <ImageView
+            android:id="@+id/titleCard"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/card" />
+
+        <TextView
+            android:id="@+id/viewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/titleCard"
+            android:layout_alignTop="@+id/titleCard"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold" 
+            android:text="Title"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/bodyLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@anim/layout_shadow" >
+
+        <TextView
+            android:id="@+id/tvBody"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="TextView" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/audioLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp" 
+        android:background="@anim/layout_shadow">
+
+        <ImageView
+            android:id="@+id/audioCard"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@drawable/card" />
+
+         <TextView
+            android:id="@+id/viewAudioName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/audioCard"
+            android:layout_alignTop="@+id/audioCard"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold" 
+            android:text="Audio"/>
+
+         <SeekBar
+             android:id="@+id/seekBarAudio"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content" 
+             android:layout_marginTop="10dp"
+             android:paddingLeft="30dp"
+             android:paddingRight="30dp"
+             android:layout_below="@+id/audioCard"/>
+
+         <ImageButton
+             android:id="@+id/btPlayAudio"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_below="@+id/seekBarAudio"
+             android:layout_centerInParent="true"
+             android:src="@drawable/bt_camera" />
+
+         <ImageButton
+             android:id="@+id/btPauseAudio"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_below="@+id/seekBarAudio"
+             android:layout_centerInParent="true"
+             android:src="@drawable/bt_fromfile" />
+
+       
+         
+    </RelativeLayout>
+         
+    <RelativeLayout
+        android:id="@+id/imageLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp" 
+        android:background="@anim/layout_shadow">
+
+        <ImageView
+            android:id="@+id/imageCard"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@drawable/card" />
+
+        <TextView
+            android:id="@+id/viewImageName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/imageCard"
+            android:layout_alignTop="@+id/imageCard"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold" 
+            android:text="Image"/>
+
+        <ImageView
+            android:id="@+id/viewImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imageCard"
+            android:layout_centerInParent="true"
+            android:src="@drawable/nexus" />
+     
+    </RelativeLayout>
+         
+         <RelativeLayout
+             android:id="@+id/videoLayout"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="5dp" 
+             android:background="@anim/layout_shadow">
+
+        <ImageView
+            android:id="@+id/videoCard"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@drawable/card" />
+
+         <TextView
+            android:id="@+id/viewVideoName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/videoCard"
+            android:layout_alignTop="@+id/videoCard"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold" 
+            android:text="Video"/>
+
+         <VideoView
+             android:id="@+id/viewVideo"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content" 
+             android:layout_below="@+id/videoCard"/>
+         
+    </RelativeLayout>
+         
+    <RelativeLayout
+        android:id="@+id/timeLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@anim/layout_shadow" >
+
+        <ImageView
+            android:id="@+id/timeCard"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@drawable/card" />
+
+        <TextView
+            android:id="@+id/viewTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/timeCard"
+            android:layout_alignTop="@+id/timeCard"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold" 
+            android:text="Time"/>
+
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/timeCard"
+            android:text="TextView" />
+        
+    </RelativeLayout>
+         
+    <RelativeLayout
+        android:id="@+id/locationLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp" 
+        android:background="@anim/layout_shadow">
+
+        <ImageView
+            android:id="@+id/locationCard"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@drawable/card" />
+
+        <TextView
+            android:id="@+id/viewLocationName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/locationCard"
+            android:layout_alignTop="@+id/locationCard"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold" 
+            android:text="Location"/>
+
+        <TextView
+            android:id="@+id/tvlatitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/locationCard"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/tvLongitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvlatitude"
+            android:text="TextView" />
+        
+    </RelativeLayout>
+
+</LinearLayout>
+
+</ScrollView>
+
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="75dp" 
+ 	android:layout_alignParentBottom="true">
+
+    <ImageView
+        android:id="@+id/actionbar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/actionbar" />
+
+    <ImageButton
+        android:id="@+id/btDelete"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/bt_clear" />
+    
+    <ImageView 
+        android:id="@+id/bt_delete_effect" 
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignLeft="@+id/btDelete"
+        android:background="@drawable/bt_clear_effect"/>   
+        
+    <ImageButton
+        android:id="@+id/btEditEvent"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/btDelete"
+        android:layout_marginRight="30dp"
+        android:background="@drawable/bt_create" />
+    
+     <ImageView 
+        android:id="@+id/bt_edit_effect" 
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignLeft="@+id/btEditEvent"
+        android:background="@drawable/bt_create_effect"/>   
+        
+    <ImageButton
+        android:id="@+id/btBack"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/btDelete"
+        android:layout_marginLeft="30dp"
+        android:background="@drawable/bt_cancel" />
+    
+	<ImageView 
+        android:id="@+id/bt_back_effect" 
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignLeft="@+id/btBack"
+        android:background="@drawable/bt_cancel_effect"/>
+	
+</RelativeLayout>
+
+</RelativeLayout>
