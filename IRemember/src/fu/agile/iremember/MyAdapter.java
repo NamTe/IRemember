@@ -5,6 +5,7 @@ import java.util.List;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,8 +33,14 @@ public class MyAdapter extends ArrayAdapter<Card> {
 		} 
 		Card card = list.get(position);
 		ImageView lwCustomeImageView= (ImageView) convertView.findViewById(R.id.lwCustomeImageView);
-		Bitmap bit = BitmapFactory.decodeFile(card.getImageFile().getAbsolutePath());
-		lwCustomeImageView.setImageBitmap(bit);
+		String imagePath = card.getImageFile();
+		if(imagePath.equalsIgnoreCase("unknow") == false) {
+			Bitmap bit = BitmapFactory.decodeFile(imagePath);
+			lwCustomeImageView.setImageBitmap(bit);
+		}else {
+			lwCustomeImageView.setImageResource(R.drawable.nexus);
+		}
+		
 		TextView tvCustomeStoryName = (TextView) convertView.findViewById(R.id.tvCustomeStoryName);
 		tvCustomeStoryName.setText(card.getTitle());
 		TextView twCustomeTime = (TextView) convertView.findViewById(R.id.twCustomeTime);

@@ -6,10 +6,11 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,16 +18,15 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 @SuppressLint("NewApi")
-public class MainActivity extends Activity implements  android.view.View.OnClickListener {
+public class MainActivity extends Activity implements  android.view.View.OnClickListener, OnItemLongClickListener {
 
 
 	DataBase db;
@@ -36,6 +36,8 @@ public class MainActivity extends Activity implements  android.view.View.OnClick
 	private List<Card> RecordList;
 	private List<String> stringAdapter;
 	private AutoCompleteTextView autoComplete;
+	private static int ACTION_ADD_EVENT = 1;
+	private static String tag = "Hello";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -64,58 +66,62 @@ public class MainActivity extends Activity implements  android.view.View.OnClick
 		}
 		
 		db = new DataBase(this);
-		RecordList = new ArrayList<Card>();
-		RecordList = db.getAllRecords();
+		display();
+		
+		
+		//Handle event
 		autoComplete.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				displaySelect(arg2);
-			}
-		});
-		
-		autoComplete.setOnEditorActionListener(new OnEditorActionListener() {
-			
-			@Override
-			public boolean onEditorAction(TextView arg0, int arg1, KeyEvent arg2) {
 				// TODO Auto-generated method stub
-				display();
-				return false;
+				displaySelect(arg0.getItemAtPosition(arg2).toString());
 			}
 		});
-		display();
-		getStringAdapter();
-		
+		lw.setOnItemLongClickListener(this);
 		
 	}
-	
+		
 	public void getStringAdapter() {
 		for(Card d : RecordList) { 
 			stringAdapter.add(d.getTitle());
-			Log.d("A", stringAdapter.get(0));
 		}
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,stringAdapter);
 		autoComplete.setAdapter(adapter);
 	}
 	
-	public void displaySelect(int position) {
+	public void displaySelect(String Name) {
 		List<Card> list = new ArrayList<Card>();
-		list.add(RecordList.get(position));
-		Log.d("A", list.get(0).getTitle());
+		for(Card d : RecordList) {
+			if(d.getTitle().equalsIgnoreCase(Name)) {
+				list.add(d);
+			}
+		}
 		MyAdapter adapter = new MyAdapter(this, R.layout.list_customise, list);
 		lw.setAdapter(adapter);
 	}
 	
-	public void display() {			
+	public void display() {	
+		RecordList = new ArrayList<Card>();
+		RecordList = db.getAllRecords();
 		MyAdapter adapter = new MyAdapter(this, R.layout.list_customise, RecordList);
 		lw.setAdapter(adapter);
+		lw.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				Intent intent = new Intent(MainActivity.this,ViewEvent.class);
+				intent.putExtra("position", arg2);
+				startActivityForResult(intent, ACTION_ADD_EVENT);
+			}
+		});
+		getStringAdapter();
 	}
 	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data){
-		if(resultCode == RESULT_OK) {
+		if(data != null)
 			display();
-		}
 	}
 	
 	public void createNewDir(File newDir) {
@@ -158,7 +164,7 @@ public class MainActivity extends Activity implements  android.view.View.OnClick
 			case R.id.btAdd: {
 				findViewById(R.id.bt_add_effect).startAnimation(anim);
 				Intent intent = new Intent(MainActivity.this,AddScreen.class);
-				startActivityForResult(intent, 0);
+				startActivityForResult(intent, ACTION_ADD_EVENT);
 			
 			}break;
 	
@@ -167,5 +173,31 @@ public class MainActivity extends Activity implements  android.view.View.OnClick
 		}
 	}
 
+	@Override
+	public boolean onItemLongClick(AdapterView<?> arg0, View context, final int position,
+			long arg3) {
+		AlertDialog.Builder builder1 = new AlertDialog.Builder(context.getContext());
+        builder1.setMessage("Are You Sure To Display");
+        builder1.setCancelable(true);
+        builder1.setPositiveButton("No",
+                new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+            	
+                dialog.cancel();
+            }
+        });
+        builder1.setNegativeButton("Yes",
+                new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+            	db.deleteRecord(RecordList.get(position));
+            	display();
+            	getStringAdapter();
+                dialog.cancel();
+            }
+        });
 
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+		return false;
+	}
 }

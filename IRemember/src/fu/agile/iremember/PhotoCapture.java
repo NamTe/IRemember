@@ -4,12 +4,14 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.Menu;
@@ -161,7 +163,12 @@ public class PhotoCapture extends Activity implements OnClickListener {
 	}
 	
 	public void getPictureFormGallery () {
-		Intent takePictureByIntent = new Intent(Intent.ACTION_GET_CONTENT);
+		Intent takePictureByIntent;
+		if(Build.VERSION.SDK_INT < 19 ) {
+			takePictureByIntent = new Intent(Intent.ACTION_GET_CONTENT);
+		} else {
+			takePictureByIntent = new Intent(Intent.ACTION_PICK);
+		}
 		takePictureByIntent.setType("image/*");
 		startActivityForResult(takePictureByIntent, REQUEST_PICK_PHOTO);  
 	}
@@ -223,7 +230,13 @@ public class PhotoCapture extends Activity implements OnClickListener {
 	}
 	
 	public void getVideoFromGallery() {
-		Intent takeVideo = new Intent(Intent.ACTION_GET_CONTENT);
+		Intent takeVideo ;
+		if(Build.VERSION.SDK_INT < 19) {
+			takeVideo = new Intent(Intent.ACTION_GET_CONTENT);
+		}
+		else {
+			takeVideo = new Intent(Intent.ACTION_PICK);
+		}
 		takeVideo.setType("video/*");
 		startActivityForResult(takeVideo, REQUEST_PICK_VIDEO);  
 	}

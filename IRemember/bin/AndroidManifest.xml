@@ -46,6 +46,10 @@
             android:name="fu.agile.iremember.PhotoCapture" 
             android:label="@string/title_activity_add_screen" > 
         </activity>
+        <activity 
+            android:name="fu.agile.iremember.Edit_view" 
+            android:label="@string/title_activity_add_screen" > 
+        </activity>
     </application>
 
 </manifest>

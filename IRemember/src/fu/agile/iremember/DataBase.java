@@ -48,9 +48,9 @@ public class DataBase extends SQLiteOpenHelper {
 		values.put(KEY_TILE, newRecord.getTitle());
 		values.put(KEY_BODY, newRecord.getBody());
 		values.put(KEY_TIME, newRecord.getTime());
-		values.put(KEY_AUDIO_FILE, newRecord.getAudioFile().getAbsolutePath());
-		values.put(KEY_IMAGE_FILE, newRecord.getImageFile().getAbsolutePath());
-		values.put(KEY_VIDEO_FILE, newRecord.getVideoFile().getAbsolutePath());
+		values.put(KEY_AUDIO_FILE, newRecord.getAudioFile());
+		values.put(KEY_IMAGE_FILE, newRecord.getImageFile());
+		values.put(KEY_VIDEO_FILE, newRecord.getVideoFile());
 		values.put(KEY_LATITUTE, newRecord.getLatitute());
 		values.put(KEY_LONGITUDE, newRecord.getLongitude());
 		db.insert(TABLE_NAME, null, values);
@@ -103,5 +103,19 @@ public class DataBase extends SQLiteOpenHelper {
         // return count
         return cursor.getCount();
     }
+	
+	public void UPDATE_Record(Card card, int id) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(KEY_TILE, card.getTitle());
+		values.put(KEY_BODY, card.getBody());
+		values.put(KEY_TIME, card.getTime());
+		values.put(KEY_AUDIO_FILE,card.getAudioFile());
+		values.put(KEY_VIDEO_FILE, card.getVideoFile());
+		values.put(KEY_IMAGE_FILE, card.getImageFile());
+		values.put(KEY_LATITUTE, card.getLatitute());
+		values.put(KEY_LONGITUDE, card.getLongitude());
+		db.update(TABLE_NAME, values, "id = " + id, null);
+	}
 	
 }

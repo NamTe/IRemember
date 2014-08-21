@@ -2,11 +2,13 @@ package fu.agile.iremember;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -15,15 +17,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Gallery;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,7 +27,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-public class AddScreen extends Activity implements OnClickListener, LocationListener{
+public class Edit_view extends Activity implements OnClickListener, LocationListener{
 
 	//Button Declare
 	private ImageButton btAddTitle;
@@ -66,10 +62,10 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 	private TextView textLocation;
 	
 	//String Declare
-	private String time = "Unkown";
-	private String audioPath = "Unknow";
-	private String imagePath = "Unknow";
-	private String videoPath = "Unknow";
+	private String time;
+	private String audioPath;
+	private String imagePath;
+	private String videoPath;
 	private static String tag = "Hello";
 	private String latitute;
 	private String longitude;
@@ -77,6 +73,7 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 	private TimePicker timePicker;
 	//ImageView
 	private ImageView imageView;
+	private ImageView viewImage;
 	//VideoView
 	private VideoView videoView;
 	//Animation Declaration
@@ -90,7 +87,10 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 	static private int TAKE_VIDEO_CODE = 2;
 	static private int TAKE_AUDIO_RECORDER = 3;
 	
-	A recordAudio = new A();
+	private A recordAudio = new A();
+	private int position;
+	private List<Card> RecordList;
+	private Card card;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -114,6 +114,35 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 	    	longitude = "Location not available";
 	    }
 	    db = new DataBase(getApplicationContext());
+	    Intent intent = getIntent();
+	    position = intent.getIntExtra("position", -1);
+	    if(position == -1) {
+	    	Toast.makeText(getApplicationContext(), "You are facing some error", Toast.LENGTH_LONG).show();
+	    	Intent inte = new Intent();
+	    	setResult(RESULT_CANCELED, inte);
+	    	finish();
+	    }else {
+	    	RecordList = db.getAllRecords();
+	    	card = RecordList.get(position);
+	    	etTitle.setText(card.getTitle());
+	    	etBody.setText(card.getBody());
+	    	audioPath = card.getAudioFile();
+	    	imagePath = card.getImageFile();
+	    	videoPath = card.getVideoFile();
+	    	time = card.getTime();
+	    	if(imagePath.equalsIgnoreCase("unknow") == false) {
+	    		Bitmap bit = BitmapFactory.decodeFile(imagePath);
+	    		imageView.setImageBitmap(bit);
+	    	} else {
+	    		imageView.setImageResource(R.drawable.nexus);
+	    	}
+	    	TimeView.setText(card.getTime());
+	    	if(card.getLatitute().equals("Location not available") != true)
+	    		textLocation.setText(card.getLatitute() + " : " + card.getLongitude());
+	    	else {
+	    		textLocation.setText("Location not available");
+	    	}
+	    }
 	}
 ////	
 	
@@ -197,7 +226,6 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 		btCancel.setOnClickListener(this);
 		TimeView = (TextView)findViewById(R.id.textTime);
 		
-		
 		anim = AnimationUtils.loadAnimation(this, R.anim.zoom_animation);
 		etTitle = (EditText) findViewById(R.id.title);
 		etBody = (EditText) findViewById(R.id.body);
@@ -210,6 +238,7 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 		if(requestCode == TAKE_PICTURE_CODE) {
 			if(resultCode == RESULT_OK){      
 		    	 imagePath = data.getStringExtra("resultOfPhoto");	    
+		    	 Log.d(tag, imagePath);
 		     }
 		} 
 		if(requestCode == TAKE_VIDEO_CODE) {
@@ -218,6 +247,10 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 		    	 Log.d(tag, videoPath);
 		     }
 		} 
+		if(requestCode == TAKE_AUDIO_RECORDER) {			
+				audioPath = data.getStringExtra("AudioPath");	
+				Log.d(tag, audioPath);
+		}
 	} 
 
 	 
@@ -253,7 +286,6 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 				findViewById(R.id.btAddRecordAudio).setVisibility(View.VISIBLE);
 				findViewById(R.id.btStopRecordAudio).setVisibility(View.INVISIBLE);
 				recordAudio.stopRecord();
-				audioPath = recordAudio.getAudioPath();
 			} break;
 			case R.id.btSave: {
 				findViewById(R.id.bt_save_effect).startAnimation(anim);
@@ -284,29 +316,30 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 			}
 			
 			case R.id.btCreateEvent : {
-				
-				if(etTitle.getText().toString().length() > 0 && etBody.getText().toString().length() > 0)
-					try {
-						newRecord = new Card(etTitle.getText().toString(), etBody.getText().toString(), audioPath.toString(), imagePath.toString(), videoPath.toString(), time.toString(),latitute,longitude);
-						db.insertNewRecord(newRecord);
-						Intent intent = new Intent();
-						setResult(RESULT_OK, intent);
-						findViewById(R.id.bt_create_effect).startAnimation(anim);
-						finish();
-					}catch(Exception exc) {
-						Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
-					}
-				else {
-					Toast.makeText(getApplicationContext(), "Make Sure You full fill the title field and body field", Toast.LENGTH_LONG).show();
-				}
+				newRecord = new Card(etTitle.getText().toString(), etBody.getText().toString(), audioPath.toString(), imagePath.toString(), videoPath.toString(), time.toString(),latitute,longitude);
+				db.insertNewRecord(newRecord);
+				Log.d(tag, etTitle.getText().toString());
+				Log.d(tag, etBody.getText().toString());
+				Log.d(tag, audioPath.toString());
+				Log.d(tag, imagePath.toString());
+				Log.d(tag, videoPath.toString());
+				Log.d(tag, latitute.toString());
+				Log.d(tag, longitude.toString());
+				Intent intent = new Intent();
+				setResult(RESULT_OK, intent);
+				finish();
+				findViewById(R.id.bt_create_effect).startAnimation(anim);
+				finish();
 				break;
 			} 
 			case R.id.btAddTime : {
 //				TimeView.setText(time);
 //				timePicker = (TimePicker) findViewById(R.id.timePicker);
 //				timePicker.setVisibility(View.VISIBLE);
-				
+				findViewById(R.id.imagebtTime).startAnimation(anim);
+				time = timePicker.getCurrentHour() + ":" + timePicker.getCurrentMinute();
 				TimeView.setText(time);
+				Log.d(tag, time);
 				break;
 			} case R.id.btClear : {
 				findViewById(R.id.title).requestFocus();
@@ -333,13 +366,13 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 	}
 
 	public void openCameraForImage(int which) {
-		Intent intent = new Intent(AddScreen.this,PhotoCapture.class);
+		Intent intent = new Intent(Edit_view.this,PhotoCapture.class);
 		intent.putExtra("key", which);
 		startActivityForResult(intent, TAKE_PICTURE_CODE);
 	}
 	
 	public void openCameraForVideo(int which) {
-		Intent intent = new Intent(AddScreen.this,PhotoCapture.class);
+		Intent intent = new Intent(Edit_view.this,PhotoCapture.class);
 		intent.putExtra("Video", which);
 		startActivityForResult(intent, TAKE_VIDEO_CODE);
 	}
