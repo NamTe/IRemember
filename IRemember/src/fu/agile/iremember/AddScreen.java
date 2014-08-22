@@ -29,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 public class AddScreen extends Activity implements OnClickListener, LocationListener{
 
@@ -76,6 +77,8 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 	private TimePicker timePicker;
 	//ImageView
 	private ImageView imageView;
+	//VideoView
+	private VideoView videoView;
 	//Animation Declaration
 	private Animation anim;
 	//Something else
@@ -176,6 +179,8 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 		btSaveAudio.setOnClickListener(this);
 		btAddImage = (ImageButton) findViewById(R.id.btAddImage);
 		btAddImage.setOnClickListener(this);
+		imageView = (ImageView) findViewById(R.id.AddViewImage);
+		videoView = (VideoView) findViewById(R.id.AddViewVideo);
 		btFromFile = (ImageButton) findViewById(R.id.btFromFile);
 		btFromFile.setOnClickListener(this);
 		btAddTime = (ImageButton)findViewById(R.id.btAddTime);

@@ -307,6 +307,12 @@
         	android:layout_below="@+id/imageCard" 
         	android:visibility="gone">
 
+        <ImageView
+            android:id="@+id/AddViewImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/nexus" />
+
             <Gallery
                 android:id="@+id/imageGallery"
                 android:layout_width="fill_parent"
@@ -414,6 +420,11 @@
                 android:paddingRight="20dp"
                 android:paddingTop="10dp"
                 android:src="@drawable/bt_fromfile" />
+
+            <VideoView
+                android:id="@+id/AddViewVideo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
          </RelativeLayout>
          
