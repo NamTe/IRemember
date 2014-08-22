@@ -1,8 +1,10 @@
 package fu.agile.iremember;
 
 import java.util.List;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,15 +18,14 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+@SuppressLint("ClickableViewAccessibility")
 public class ViewEvent extends Activity implements OnClickListener {
 
 	//Button Declare
@@ -34,12 +35,9 @@ public class ViewEvent extends Activity implements OnClickListener {
 	private ImageButton btPlayAudio;
 	private ImageButton btPauseAudio;
 	//Edit Text Declare
-	private EditText etTitle;
-	private EditText etBody;
 	private MediaPlayer mMedia;
 	//TextView Declare
 	private TextView tvTime;
-	private TextView textLocation;
 	private TextView viewTitle;
 	private TextView tvBody;
 	private TextView tvlongitude;
@@ -52,8 +50,6 @@ public class ViewEvent extends Activity implements OnClickListener {
 	private String videoPath;
 	private String latitute;
 	private String longitude;
-	private String provider;
-	private TimePicker timePicker;
 	private DataBase db;
 	private List<Card> RecordList;
 	private Card card;
@@ -71,6 +67,9 @@ public class ViewEvent extends Activity implements OnClickListener {
 	private SeekBar seekBar;
 	Handler myhaHandler = new Handler();
 	private static int REQUEST_EDIT = 1;
+	
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -84,8 +83,7 @@ public class ViewEvent extends Activity implements OnClickListener {
 			setResult(RESULT_CANCELED, inte);
 			finish();
 		}
-		intit();  
-		
+		intit();  		
 		implementInit();
 	}
 
@@ -99,6 +97,7 @@ public class ViewEvent extends Activity implements OnClickListener {
 		btPlayAudio = (ImageButton)findViewById(R.id.btPlayAudio);
 		btPlayAudio.setOnClickListener(this);
 		btPauseAudio = (ImageButton)findViewById(R.id.btPauseAudio);
+		//Temporary invisible button pause
 		btPauseAudio.setVisibility(View.INVISIBLE);
 		viewTitle = (TextView)findViewById(R.id.viewTitle);
 		tvBody  = (TextView)findViewById(R.id.tvBody);
@@ -128,8 +127,13 @@ public class ViewEvent extends Activity implements OnClickListener {
 		}else {
 			viewImage.setImageResource(R.drawable.nexus);
 		}
-		
-		viewVideo.setVideoPath(videoPath);
+		if(videoPath.equalsIgnoreCase("unknow") == false) {
+			viewVideo.setVideoPath(videoPath);
+		}
+		else {
+			Uri uri = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.default_video);
+			viewVideo.setVideoURI(uri);
+		}
 		viewVideo.setOnTouchListener(new OnTouchListener() {
 			
 			@Override
@@ -139,7 +143,7 @@ public class ViewEvent extends Activity implements OnClickListener {
 			}
 		});
 		time = card.getTime();
-		tvTime.setText(card.getTime());
+		tvTime.setText(time);
 		latitute = card.getLatitute();
 		longitude = card.getLongitude();
 		tvlatitute.setText(latitute);
@@ -160,6 +164,29 @@ public class ViewEvent extends Activity implements OnClickListener {
 			} 
 			 case R.id.btDelete : {
 				findViewById(R.id.bt_delete_effect).startAnimation(anim);
+				AlertDialog.Builder builder1 = new AlertDialog.Builder(btDelete.getContext());
+		        builder1.setMessage("Are You Sure To Display");
+		        builder1.setCancelable(true);
+		        builder1.setPositiveButton("No",
+		                new DialogInterface.OnClickListener() {
+		            public void onClick(DialogInterface dialog, int id) {
+		            	
+		                dialog.cancel();
+		            }
+		        });
+		        builder1.setNegativeButton("Yes",
+		                new DialogInterface.OnClickListener() {
+		            public void onClick(DialogInterface dialog, int id) {
+		            	db.deleteRecord(card);
+		            	Intent i = new Intent();
+		            	setResult(RESULT_CANCELED, i);
+		            	finish();
+		                dialog.cancel();
+		            }
+		        });
+
+		        AlertDialog alert11 = builder1.create();
+		        alert11.show();				
 				break;
 			} 
 			case R.id.btBack: {
@@ -169,13 +196,15 @@ public class ViewEvent extends Activity implements OnClickListener {
 			}
 			case R.id.btPlayAudio : {
 				mMedia.reset();
-				mMedia = MediaPlayer.create(this, Uri.parse(audioPath));
+				if(audioPath.equalsIgnoreCase("unknow") == false) {
+					mMedia = MediaPlayer.create(this, Uri.parse(audioPath));
+				}else {
+					mMedia = MediaPlayer.create(this, R.raw.default_tune);
+				}
 				mMedia.start();
 				seekBar.setProgress(0);
 				seekBar.setMax(mMedia.getDuration());				
 				startPlayProgressUpdater();
-				//btPauseAudio.setVisibility(View.VISIBLE);
-				//btPlayAudio.setVisibility(View.INVISIBLE);
 				break;
 			}
 		}

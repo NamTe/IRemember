@@ -1,10 +1,13 @@
 package fu.agile.iremember;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -19,11 +22,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -70,14 +73,18 @@ public class Edit_view extends Activity implements OnClickListener, LocationList
 	private String latitute;
 	private String longitude;
 	private String provider;
-	private TimePicker timePicker;
+	private String tempLatitute;
+	private String tempLongitude;
+	
 	//ImageView
 	private ImageView imageView;
-	private ImageView viewImage;
+	
 	//VideoView
 	private VideoView videoView;
+	
 	//Animation Declaration
 	private Animation anim;
+	
 	//Something else
 	private Location location;
 	private Card newRecord;
@@ -86,22 +93,23 @@ public class Edit_view extends Activity implements OnClickListener, LocationList
 	static private int TAKE_PICTURE_CODE = 1;
 	static private int TAKE_VIDEO_CODE = 2;
 	static private int TAKE_AUDIO_RECORDER = 3;
-	
+	private int year = 0, month = 0, day = 0;
 	private A recordAudio = new A();
 	private int position;
 	private List<Card> RecordList;
 	private Card card;
+	private int DATE_PICK = 111;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_event);
 		init();
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-	    // Define the criteria how to select the locatioin provider -> use
+	    // Define the criteria how to select the location provider -> use
 	    // default
 	    Criteria criteria = new Criteria();
 	    provider = locationManager.getBestProvider(criteria, false);
-	    Location location = locationManager.getLastKnownLocation(provider);
+	    location = locationManager.getLastKnownLocation(provider);
 
 	    latitute = "Location not available";
     	longitude = "Location not available";
@@ -143,8 +151,11 @@ public class Edit_view extends Activity implements OnClickListener, LocationList
 	    		textLocation.setText("Location not available");
 	    	}
 	    }
-	}
-////	
+	    Calendar c = Calendar.getInstance();
+	    year = c.get(Calendar.YEAR);
+	    month = c.get(Calendar.MONTH);
+	    day = c.get(Calendar.DAY_OF_MONTH);
+	}	
 	
 	@Override
 	  protected void onResume() {
@@ -152,7 +163,7 @@ public class Edit_view extends Activity implements OnClickListener, LocationList
 	    locationManager.requestLocationUpdates(provider, 400, 1, this);
 	  }
 
-	  /* Remove the locationlistener updates when Activity is paused */
+	  /* Remove the location listener updates when Activity is paused */
 	  @Override
 	  protected void onPause() {
 	    super.onPause();
@@ -161,13 +172,12 @@ public class Edit_view extends Activity implements OnClickListener, LocationList
 
 	  @Override
 	  public void onLocationChanged(Location location) {
-		  latitute = location.getLatitude() + "";
-		  longitude = location.getLongitude() + "";
+		  tempLatitute = location.getLatitude() + "";
+		  tempLongitude = location.getLongitude() + "";
 	  }
 
 	  @Override
 	  public void onStatusChanged(String provider, int status, Bundle extras) {
-	    // TODO Auto-generated method stub
 
 	  }
 
@@ -184,6 +194,7 @@ public class Edit_view extends Activity implements OnClickListener, LocationList
 	        Toast.LENGTH_SHORT).show();
 	  }
 	
+	@SuppressLint("SimpleDateFormat")
 	public void init() {
 		time = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 		btAddTitle = (ImageButton) findViewById(R.id.btAddTitle);
@@ -228,6 +239,8 @@ public class Edit_view extends Activity implements OnClickListener, LocationList
 		
 		anim = AnimationUtils.loadAnimation(this, R.anim.zoom_animation);
 		etTitle = (EditText) findViewById(R.id.title);
+		etTitle.setFocusableInTouchMode(true);
+		etTitle.requestFocus();
 		etBody = (EditText) findViewById(R.id.body);
 		textLocation = (TextView)findViewById(R.id.textLocation);
 	}
@@ -238,7 +251,12 @@ public class Edit_view extends Activity implements OnClickListener, LocationList
 		if(requestCode == TAKE_PICTURE_CODE) {
 			if(resultCode == RESULT_OK){      
 		    	 imagePath = data.getStringExtra("resultOfPhoto");	    
-		    	 Log.d(tag, imagePath);
+		    	 try{
+		    		 Bitmap bit = BitmapFactory.decodeFile(imagePath);
+		    		 imageView.setImageBitmap(bit);
+		    	 } catch(Exception exc) {
+		    		 
+		    	 }
 		     }
 		} 
 		if(requestCode == TAKE_VIDEO_CODE) {
@@ -272,8 +290,18 @@ public class Edit_view extends Activity implements OnClickListener, LocationList
 				findViewById(R.id.imagebtAudio).startAnimation(anim);
 			} break;
 			case R.id.btAddPlayAudio: {
+				if(recordAudio.getIsPlay() == true) {
+					recordAudio.stopPlaying();
+				}
+				else if(audioPath.equalsIgnoreCase("Unknow") == false && audioPath != null) {
+					recordAudio.setAudioPath(audioPath);
+					recordAudio.startPlaying();	
+				}else {
+					Toast.makeText(getApplicationContext(), "You must record first", Toast.LENGTH_LONG).show();
+				}
+				
 				findViewById(R.id.bt_play_audio_effect).startAnimation(anim);
-				recordAudio.startPlaying();
+				
 			} break;
 			case R.id.btAddRecordAudio: {
 				findViewById(R.id.bt_record_audio_effect).startAnimation(anim);
@@ -286,6 +314,7 @@ public class Edit_view extends Activity implements OnClickListener, LocationList
 				findViewById(R.id.btAddRecordAudio).setVisibility(View.VISIBLE);
 				findViewById(R.id.btStopRecordAudio).setVisibility(View.INVISIBLE);
 				recordAudio.stopRecord();
+				audioPath = recordAudio.getAudioPath();
 			} break;
 			case R.id.btSave: {
 				findViewById(R.id.bt_save_effect).startAnimation(anim);
@@ -317,7 +346,7 @@ public class Edit_view extends Activity implements OnClickListener, LocationList
 			
 			case R.id.btCreateEvent : {
 				newRecord = new Card(etTitle.getText().toString(), etBody.getText().toString(), audioPath.toString(), imagePath.toString(), videoPath.toString(), time.toString(),latitute,longitude);
-				db.insertNewRecord(newRecord);
+				db.UPDATE_Record(newRecord, card.getID());
 				Log.d(tag, etTitle.getText().toString());
 				Log.d(tag, etBody.getText().toString());
 				Log.d(tag, audioPath.toString());
@@ -333,13 +362,8 @@ public class Edit_view extends Activity implements OnClickListener, LocationList
 				break;
 			} 
 			case R.id.btAddTime : {
-//				TimeView.setText(time);
-//				timePicker = (TimePicker) findViewById(R.id.timePicker);
-//				timePicker.setVisibility(View.VISIBLE);
 				findViewById(R.id.imagebtTime).startAnimation(anim);
-				time = timePicker.getCurrentHour() + ":" + timePicker.getCurrentMinute();
-				TimeView.setText(time);
-				Log.d(tag, time);
+				extracted();
 				break;
 			} case R.id.btClear : {
 				findViewById(R.id.title).requestFocus();
@@ -358,11 +382,19 @@ public class Edit_view extends Activity implements OnClickListener, LocationList
 				if(latitute.equals("Location not available") == true) {
 					textLocation.setText("Geting location fail");
 				} else {
+					latitute = tempLatitute;
+					longitude = tempLongitude;
+					textLocation.setText("Success");
 					textLocation.setText("Success");
 				}
 				break;
 			}
 		}
+	}
+
+	@SuppressWarnings("deprecation")
+	private void extracted() {
+		showDialog(DATE_PICK);
 	}
 
 	public void openCameraForImage(int which) {
@@ -376,4 +408,27 @@ public class Edit_view extends Activity implements OnClickListener, LocationList
 		intent.putExtra("Video", which);
 		startActivityForResult(intent, TAKE_VIDEO_CODE);
 	}
+	
+	@Override
+    protected Dialog onCreateDialog(int id) {
+		if(id == DATE_PICK)
+            return new DatePickerDialog(this, pickerListener, year, month,day);
+		return null;
+    }
+	
+	private DatePickerDialog.OnDateSetListener pickerListener = new DatePickerDialog.OnDateSetListener() {
+		 
+        // when dialog box is closed, below method will be called.
+        @Override
+        public void onDateSet(DatePicker view, int selectedYear,
+                int selectedMonth, int selectedDay) { 
+            year  = selectedYear;
+            month = selectedMonth + 1;
+            day   = selectedDay;
+ 
+            // Show selected date
+            time = year + "-" + month + "-" + day;
+            TimeView.setText(time);
+        }
+	};
 }

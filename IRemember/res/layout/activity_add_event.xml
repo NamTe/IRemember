@@ -64,12 +64,16 @@
     </RelativeLayout>
 
     <EditText
+        android:background="@drawable/edit_text_shape"
         android:id="@+id/title"
+        android:layout_marginTop="6dp"
+        android:focusable="true"
+   		android:focusableInTouchMode="true" 
+        android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10" >
+        android:hint="@string/Enter_The_Title">
 
-        <requestFocus />
     </EditText>
 
     <RelativeLayout
@@ -119,10 +123,15 @@
     </RelativeLayout>
 
     <EditText
+        android:layout_marginTop="5dp"
         android:id="@+id/body"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:background="@drawable/edit_text_shape"
+        android:minLines="5"
+        android:maxLines="5"
+        android:gravity="top"
         android:inputType="textMultiLine"
         android:visibility="gone" />
 

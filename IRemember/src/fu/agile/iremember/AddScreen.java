@@ -1,36 +1,38 @@
 package fu.agile.iremember;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.TypedArray;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
-import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Gallery;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+@SuppressLint("SimpleDateFormat")
 public class AddScreen extends Activity implements OnClickListener, LocationListener{
 
 	//Button Declare
@@ -74,7 +76,8 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 	private String latitute;
 	private String longitude;
 	private String provider;
-	private TimePicker timePicker;
+	private String tempLatitute;
+	private String tempLongitude;
 	//ImageView
 	private ImageView imageView;
 	//VideoView
@@ -89,19 +92,20 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 	static private int TAKE_PICTURE_CODE = 1;
 	static private int TAKE_VIDEO_CODE = 2;
 	static private int TAKE_AUDIO_RECORDER = 3;
-	
-	A recordAudio = new A();
+	private static int DATE_PICKER_ID = 111;
+	private A recordAudio = new A();
+	private int year = 0, month = 0, day = 0;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_event);
 		init();
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-	    // Define the criteria how to select the locatioin provider -> use
+	    // Define the criteria how to select the location provider -> use
 	    // default
 	    Criteria criteria = new Criteria();
 	    provider = locationManager.getBestProvider(criteria, false);
-	    Location location = locationManager.getLastKnownLocation(provider);
+	    location = locationManager.getLastKnownLocation(provider);
 
 	    latitute = "Location not available";
     	longitude = "Location not available";
@@ -114,6 +118,10 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 	    	longitude = "Location not available";
 	    }
 	    db = new DataBase(getApplicationContext());
+	    Calendar c = Calendar.getInstance();
+	    year = c.get(Calendar.YEAR);
+	    month = c.get(Calendar.MONTH);
+	    day = c.get(Calendar.DAY_OF_MONTH);
 	}
 ////	
 	
@@ -123,7 +131,7 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 	    locationManager.requestLocationUpdates(provider, 400, 1, this);
 	  }
 
-	  /* Remove the locationlistener updates when Activity is paused */
+	  /* Remove the location listener updates when Activity is paused */
 	  @Override
 	  protected void onPause() {
 	    super.onPause();
@@ -132,8 +140,9 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 
 	  @Override
 	  public void onLocationChanged(Location location) {
-		  latitute = location.getLatitude() + "";
-		  longitude = location.getLongitude() + "";
+		  tempLatitute = location.getLatitude() + "";
+		  tempLongitude = location.getLongitude() + "";
+		  
 	  }
 
 	  @Override
@@ -155,6 +164,7 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 	        Toast.LENGTH_SHORT).show();
 	  }
 	
+	@SuppressLint("SimpleDateFormat")
 	public void init() {
 		time = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 		btAddTitle = (ImageButton) findViewById(R.id.btAddTitle);
@@ -201,6 +211,8 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 		anim = AnimationUtils.loadAnimation(this, R.anim.zoom_animation);
 		etTitle = (EditText) findViewById(R.id.title);
 		etBody = (EditText) findViewById(R.id.body);
+		etTitle.setFocusableInTouchMode(true);
+		etTitle.requestFocus();
 		textLocation = (TextView)findViewById(R.id.textLocation);
 	}
 	
@@ -210,6 +222,12 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 		if(requestCode == TAKE_PICTURE_CODE) {
 			if(resultCode == RESULT_OK){      
 		    	 imagePath = data.getStringExtra("resultOfPhoto");	    
+		    	 try{
+		    		 Bitmap bit = BitmapFactory.decodeFile(imagePath);
+		    		 imageView.setImageBitmap(bit);
+		    	 } catch(Exception exc) {
+		    		 
+		    	 }
 		     }
 		} 
 		if(requestCode == TAKE_VIDEO_CODE) {
@@ -218,6 +236,16 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 		    	 Log.d(tag, videoPath);
 		     }
 		} 
+		if(requestCode == TAKE_AUDIO_RECORDER) {
+			if(resultCode == RESULT_OK){      
+		    	 Uri uri = data.getData();
+		    	 Cursor cursor = getContentResolver().query(uri, new String[] { android.provider.MediaStore.Audio.AudioColumns.DATA }, null, null, null);
+		    	 cursor.moveToFirst();
+		    	 audioPath = cursor.getString(0);
+		    	 Log.d("AudioPath",audioPath);
+		     }
+		} 
+		
 	} 
 
 	 
@@ -239,8 +267,16 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 				findViewById(R.id.imagebtAudio).startAnimation(anim);
 			} break;
 			case R.id.btAddPlayAudio: {
+				if(recordAudio.getIsPlay() == true) {
+					recordAudio.stopPlaying();
+				}
+				else if(audioPath.equalsIgnoreCase("Unknow") == false && audioPath != null) {
+					recordAudio.setAudioPath(audioPath);
+					recordAudio.startPlaying();	
+				}else {
+					Toast.makeText(getApplicationContext(), "You must record first", Toast.LENGTH_LONG).show();
+				}
 				findViewById(R.id.bt_play_audio_effect).startAnimation(anim);
-				recordAudio.startPlaying();
 			} break;
 			case R.id.btAddRecordAudio: {
 				findViewById(R.id.bt_record_audio_effect).startAnimation(anim);
@@ -257,6 +293,7 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 			} break;
 			case R.id.btSave: {
 				findViewById(R.id.bt_save_effect).startAnimation(anim);
+				OpenAudioFileToChose();
 			} break;
 			case R.id.btAddImage : {
 				findViewById(R.id.imageAddLayout).setVisibility(View.VISIBLE);
@@ -302,16 +339,19 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 				break;
 			} 
 			case R.id.btAddTime : {
-//				TimeView.setText(time);
-//				timePicker = (TimePicker) findViewById(R.id.timePicker);
-//				timePicker.setVisibility(View.VISIBLE);
-				
-				TimeView.setText(time);
+				findViewById(R.id.imagebtTime).startAnimation(anim);
+				extracted();		
 				break;
 			} case R.id.btClear : {
 				findViewById(R.id.title).requestFocus();
+				audioPath = "unknow";
+				imagePath = "unknow";
+				time = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+				videoPath = "unknow";
 				etBody.setText("");
 				etTitle.setText("");
+				latitute = "Location not available";
+		    	longitude = "Location not available";
 				findViewById(R.id.bt_clear_effect).startAnimation(anim);
 				break;
 			} 
@@ -325,11 +365,18 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 				if(latitute.equals("Location not available") == true) {
 					textLocation.setText("Geting location fail");
 				} else {
+					latitute = tempLatitute;
+					longitude = tempLongitude;
 					textLocation.setText("Success");
 				}
 				break;
 			}
 		}
+	}
+
+	@SuppressWarnings("deprecation")
+	private void extracted() {
+		showDialog(DATE_PICKER_ID);
 	}
 
 	public void openCameraForImage(int which) {
@@ -343,4 +390,38 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 		intent.putExtra("Video", which);
 		startActivityForResult(intent, TAKE_VIDEO_CODE);
 	}
+	
+	public void OpenAudioFileToChose() {
+		Intent takeAudio ;
+		if(Build.VERSION.SDK_INT < 19) {
+			takeAudio = new Intent(Intent.ACTION_GET_CONTENT);
+		}
+		else {
+			takeAudio = new Intent(Intent.ACTION_PICK);
+		}
+		takeAudio.setType("audio/*");
+		startActivityForResult(takeAudio, TAKE_AUDIO_RECORDER);  
+	}
+	
+	@Override
+    protected Dialog onCreateDialog(int id) {
+            return new DatePickerDialog(this, pickerListener, year, month,day);
+    }
+	
+	private DatePickerDialog.OnDateSetListener pickerListener = new DatePickerDialog.OnDateSetListener() {
+		 
+        // when dialog box is closed, below method will be called.
+        @Override
+        public void onDateSet(DatePicker view, int selectedYear,
+                int selectedMonth, int selectedDay) { 
+            year  = selectedYear;
+            month = selectedMonth + 1;
+            day   = selectedDay;
+ 
+            // Show selected date
+            time = year + "-" + month + "-" + day;
+            TimeView.setText(time);
+        }
+	};
 }
+	

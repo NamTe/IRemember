@@ -10,10 +10,11 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnKeyListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -37,21 +38,48 @@ public class MainActivity extends Activity implements  android.view.View.OnClick
 	private List<String> stringAdapter;
 	private AutoCompleteTextView autoComplete;
 	private static int ACTION_ADD_EVENT = 1;
-	private static String tag = "Hello";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fragment_main);
+
+		
+		checkFile();
+		anim = AnimationUtils.loadAnimation(this, R.anim.zoom_animation);
+		autoComplete = (AutoCompleteTextView)findViewById(R.id.etFilter);
 		btAdd = (ImageButton)findViewById(R.id.btAdd);
 		btAdd.setOnClickListener(this);
-		File dir = new File(getString(R.string._mnt_sdcard_iremember));
 		lw = (ListView)findViewById(R.id.lwListRemember);
+		db = new DataBase(this);
+		display();
+		
+		
+		//Handle event
+		autoComplete.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				displaySelect(arg0.getItemAtPosition(arg2).toString());
+			}
+		});
+		lw.setOnItemLongClickListener(this);
+		autoComplete.setOnKeyListener(new OnKeyListener() {
+			@Override
+			public boolean onKey(View arg0, int arg1, KeyEvent arg2) {
+				if(autoComplete.getText().toString().length() == 0) {
+					display();
+				}
+				return false;
+			}
+		});
+	}
+	
+	public void checkFile() {
+		File dir = new File(getString(R.string._mnt_sdcard_iremember));
 		File phtotoDir = new File(getString(R.string._mnt_sdcard_iremember_photo));
 		File videoDir = new File(getString(R.string._mnt_sdcard_iremember_video));
 		File audioRecorder = new File(getString(R.string._mnt_sdcard_iremember_audio));
-		anim = AnimationUtils.loadAnimation(this, R.anim.zoom_animation);
-		autoComplete = (AutoCompleteTextView)findViewById(R.id.etFilter);
-		stringAdapter = new ArrayList<String>();
+		
 		if(dir.isDirectory() == false) {
 			createNewDir(dir);
 		}
@@ -64,26 +92,10 @@ public class MainActivity extends Activity implements  android.view.View.OnClick
 		if(audioRecorder.isDirectory() == false) {
 			createNewDir(audioRecorder);
 		}
-		
-		db = new DataBase(this);
-		display();
-		
-		
-		//Handle event
-		autoComplete.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
-				// TODO Auto-generated method stub
-				displaySelect(arg0.getItemAtPosition(arg2).toString());
-			}
-		});
-		lw.setOnItemLongClickListener(this);
-		
 	}
 		
 	public void getStringAdapter() {
+		stringAdapter = new ArrayList<String>();
 		for(Card d : RecordList) { 
 			stringAdapter.add(d.getTitle());
 		}
@@ -120,7 +132,6 @@ public class MainActivity extends Activity implements  android.view.View.OnClick
 	}
 	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data){
-		if(data != null)
 			display();
 	}
 	
@@ -153,9 +164,7 @@ public class MainActivity extends Activity implements  android.view.View.OnClick
 		return super.onOptionsItemSelected(item);
 	}
 
-	/**
-	 * A placeholder fragment containing a simple view.
-	 */
+
 	
 	@Override
 	public void onClick(View v) {

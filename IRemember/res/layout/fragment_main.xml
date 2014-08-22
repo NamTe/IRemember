@@ -8,18 +8,21 @@
      >
 
     <LinearLayout 
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:id="@+id/layout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:orientation="vertical" >
         <AutoCompleteTextView 
+            android:background="@drawable/edit_text_shape"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/etFilter"
             android:maxLines="1"
+            android:textSize="15sp"
             android:hint="@string/etFilter"
             />
 

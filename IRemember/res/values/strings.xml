@@ -41,6 +41,8 @@
     <string name="_mnt_sdcard_iremember_audio">/mnt/sdcard/IRemember/Audio</string>
     <string name="btCancelSaveImage">Cancel</string>
     <string name="tvCustomeStoryName">Tham Quan Ha Long</string>
-	<string name="twCustomeTime">2014-18-8</string>
+	<string name="twCustomeTime">2014/18/8</string>
+	<string name="Enter_The_Title">Enter Title</string>
+	<string name="_mnt_sdcard_iremember_audio_">/mnt/sdcard/IRemember/Audio/</string>
 
 </resources>
