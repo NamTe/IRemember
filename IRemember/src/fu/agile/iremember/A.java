@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import android.content.Context;
+import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.provider.MediaStore.Video.Media;
 import android.widget.Toast;
@@ -11,6 +13,7 @@ import android.widget.Toast;
 public class A {
 	MediaRecorder Recoder;
 	String audioPath;
+	MediaPlayer mPlayer;
 	A() {
 		
 	}
@@ -39,6 +42,21 @@ public class A {
 		Recoder = null;
     }
 	
+	public void startPlaying() {
+        mPlayer = new MediaPlayer();
+        try {
+            mPlayer.setDataSource(audioPath);
+            mPlayer.prepare();
+            mPlayer.start();
+        } catch (IOException e) {
+        	Toast.makeText(getApplicationContext(), "SomeThing went wrong", Toast.LENGTH_LONG).show();
+        }
+    }
+	private Context getApplicationContext() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	public String getAudioPath() {
 		return audioPath;
 	}

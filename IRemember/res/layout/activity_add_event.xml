@@ -170,37 +170,90 @@
             android:layout_alignBottom="@+id/audioCard"        
             android:layout_alignLeft="@+id/btAddAudio"
             android:src="@drawable/bt_add_content" />
+
+         
          
     </RelativeLayout>
-
-    <RelativeLayout 
-        	android:id="@+id/audioAddLayout"
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-        	android:layout_below="@+id/audioCard" 
-        	android:visibility="gone">
-
-
-            <ImageButton 
-                android:id="@+id/btRecordAudio" 
-                android:layout_width="wrap_content" 
-                android:layout_height="wrap_content" 
-                android:layout_alignParentRight="true" 
-                android:paddingRight="20dp" 
-                android:src="@drawable/bt_add_content" />
-
-            <ImageButton 
-                android:id="@+id/btFromFileAudio" 
-                android:layout_width="wrap_content" 
-                android:layout_height="wrap_content" 
-                android:layout_alignParentRight="true" 
-                android:layout_below="@+id/btRecordAudio" 
-                android:paddingRight="20dp" 
-                android:src="@drawable/bt_add_content" />
-
-         </RelativeLayout>
          
-    <RelativeLayout
+    <RelativeLayout android:id="@+id/audioLayout" 
+        			android:layout_width="fill_parent" 
+        			android:layout_height="wrap_content" 
+        			android:layout_below="@+id/audioCard" 
+        			android:layout_marginTop="10dp" 
+        			android:visibility="gone">
+
+             <ImageButton 
+                 android:id="@+id/btAddPlayAudio" 
+                 android:layout_width="47dp"
+                 android:layout_height="47dp" 
+                 android:layout_marginRight="20dp" 
+                 android:layout_toLeftOf="@+id/btAddRecordAudio" 
+                 android:background="@android:color/transparent" 
+                 android:scaleType="fitXY" 
+                 android:src="@drawable/bt_play_audio" />
+
+             <ImageView 
+                 android:id="@+id/bt_play_audio_effect" 
+                 android:layout_width="47dp" 
+                 android:layout_height="47dp" 
+                 android:layout_alignLeft="@+id/btAddPlayAudio" 
+                 android:src="@drawable/bt_play_audio_effect" />
+          
+            
+             
+             <ImageButton 
+                 android:id="@+id/btAddRecordAudio" 
+                 android:layout_width="47dp" 
+                 android:layout_height="47dp" 
+                 android:background="@android:color/transparent" 
+                 android:layout_centerHorizontal="true" 
+                 android:scaleType="fitXY" 
+                 android:src="@drawable/bt_record_audio" />
+             
+              <ImageButton 
+                  android:id="@+id/btStopRecordAudio" 
+                  android:layout_width="47dp" 
+                  android:layout_height="47dp" 
+                  android:background="@android:color/transparent" 
+                  android:scaleType="fitXY" 
+                  android:layout_alignLeft="@+id/btAddRecordAudio" 
+                  android:src="@drawable/bt_stop_record_audio" 
+                  android:visibility="invisible" />
+             
+             <ImageView 
+                 android:id="@+id/bt_stop_record_audio_effect" 
+                 android:layout_width="47dp" 
+                 android:layout_height="47dp" 
+                 android:layout_alignLeft="@+id/btStopRecordAudio" 
+                 android:src="@drawable/bt_stop_record_audio_effect" 
+                 android:visibility="invisible" />
+             
+             <ImageView 
+                 android:id="@+id/bt_record_audio_effect" 
+                 android:layout_width="47dp" 
+                 android:layout_height="47dp" 
+                 android:layout_alignLeft="@+id/btAddRecordAudio" 
+                 android:src="@drawable/bt_record_audio_effect" />
+             
+             
+             <ImageButton 
+                 android:id="@+id/btSave" 
+                 android:layout_width="47dp" 
+                 android:layout_height="47dp" 
+                 android:layout_marginLeft="20dp" 
+                 android:layout_toRightOf="@+id/btAddRecordAudio" 
+                 android:background="@android:color/transparent" 
+                 android:scaleType="fitXY" 
+                 android:src="@drawable/bt_save" />
+
+             <ImageView 
+                 android:id="@+id/bt_save_effect" 
+                 android:layout_width="47dp" 
+                 android:layout_height="47dp" 
+                 android:layout_alignLeft="@+id/btSave" 
+                 android:src="@drawable/bt_save_effect" />
+             
+         </RelativeLayout><RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp">
@@ -463,12 +516,6 @@
             android:src="@drawable/bt_add_content" />
         
     </RelativeLayout>
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button" />
 
 </LinearLayout>
 

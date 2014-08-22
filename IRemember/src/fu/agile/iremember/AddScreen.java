@@ -38,6 +38,10 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 	private ImageButton create;
 	private ImageButton btAddVideo;
 	private ImageButton btCameraVideo;
+	private ImageButton btPlayAudio;
+	private ImageButton btRecordAudio;
+	private ImageButton btStopRecordAudio;
+	private ImageButton btSaveAudio;
 	private ImageButton btAddImage;
 	private ImageButton btOpenCamera;
 	private ImageButton btAddAudio;
@@ -50,7 +54,7 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 	private ImageButton btFromFile;
 	
 	
-	Button bt;
+	
 	
 	//Edit Text Declare
 	private EditText etTitle;
@@ -70,8 +74,8 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 	private String longitude;
 	private String provider;
 	private TimePicker timePicker;
-	//Gallery
-	private Gallery gal;
+	//ImageView
+	private ImageView imageView;
 	//Animation Declaration
 	private Animation anim;
 	//Something else
@@ -83,7 +87,7 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 	static private int TAKE_VIDEO_CODE = 2;
 	static private int TAKE_AUDIO_RECORDER = 3;
 	
-	
+	A recordAudio = new A();
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -162,6 +166,14 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 		btFromFileVideo.setOnClickListener(this);
 		btAddAudio = (ImageButton) findViewById(R.id.btAddAudio);
 		btAddAudio.setOnClickListener(this);
+		btPlayAudio = (ImageButton) findViewById(R.id.btAddPlayAudio);
+		btPlayAudio.setOnClickListener(this);
+		btRecordAudio = (ImageButton) findViewById(R.id.btAddRecordAudio);
+		btRecordAudio.setOnClickListener(this);
+		btStopRecordAudio = (ImageButton) findViewById(R.id.btStopRecordAudio);
+		btStopRecordAudio.setOnClickListener(this);
+		btSaveAudio = (ImageButton) findViewById(R.id.btSave);
+		btSaveAudio.setOnClickListener(this);
 		btAddImage = (ImageButton) findViewById(R.id.btAddImage);
 		btAddImage.setOnClickListener(this);
 		btFromFile = (ImageButton) findViewById(R.id.btFromFile);
@@ -179,14 +191,11 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 		btCancel = (ImageButton) findViewById(R.id.btCancel);
 		btCancel.setOnClickListener(this);
 		TimeView = (TextView)findViewById(R.id.textTime);
-		gal = (Gallery) findViewById(R.id.imageGallery);
-		gal.setAdapter(new ImageAdapter(this));
-
+		
+		
 		anim = AnimationUtils.loadAnimation(this, R.anim.zoom_animation);
 		etTitle = (EditText) findViewById(R.id.title);
 		etBody = (EditText) findViewById(R.id.body);
-		bt = (Button) findViewById(R.id.button2);
-		bt.setOnClickListener(this);
 		textLocation = (TextView)findViewById(R.id.textLocation);
 	}
 	
@@ -211,48 +220,6 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 		}
 	} 
 
-
-	 public class ImageAdapter extends BaseAdapter {
-	        private Context context;
-	        private int itemBackground;
-	        Integer[] images = {
-	    			R.drawable.bt_add,
-	    			R.drawable.bt_create
-	    	};
-	        public ImageAdapter(Context c) 
-	        {
-	            context = c;
-	        }
-
-			@Override
-			public int getCount() {
-				// TODO Auto-generated method stub
-				return images.length;
-			}
-
-			@Override
-			public Object getItem(int position) {
-				// TODO Auto-generated method stub
-				return position;
-			}
-
-			@Override
-			public long getItemId(int position) {
-				// TODO Auto-generated method stub
-				return position;
-			}
-
-			@Override
-			public View getView(int position, View convertView, ViewGroup parent) {
-				// TODO Auto-generated method stub
-				 ImageView i = new ImageView(context);
-
-			     i.setImageResource(images[position]);
-			     i.setLayoutParams(new Gallery.LayoutParams(200, 200));
-			     i.setScaleType(ImageView.ScaleType.FIT_XY);
-			     return i;
-			    }
-	 }
 	 
 	@Override
 	public void onClick(View v) {
@@ -266,6 +233,29 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 				findViewById(R.id.body).setVisibility(View.VISIBLE);
 				findViewById(R.id.body).requestFocus();
 				findViewById(R.id.imagebtBody).startAnimation(anim);
+			} break;
+			case R.id.btAddAudio: {
+				findViewById(R.id.audioLayout).setVisibility(View.VISIBLE);
+				findViewById(R.id.imagebtAudio).startAnimation(anim);
+			} break;
+			case R.id.btAddPlayAudio: {
+				findViewById(R.id.bt_play_audio_effect).startAnimation(anim);
+				recordAudio.startPlaying();
+			} break;
+			case R.id.btAddRecordAudio: {
+				findViewById(R.id.bt_record_audio_effect).startAnimation(anim);
+				findViewById(R.id.btStopRecordAudio).setVisibility(View.VISIBLE);
+				findViewById(R.id.btAddRecordAudio).setVisibility(View.INVISIBLE);			
+				recordAudio.startingRecord();
+			} break;
+			case R.id.btStopRecordAudio: {
+				findViewById(R.id.bt_stop_record_audio_effect).startAnimation(anim);
+				findViewById(R.id.btAddRecordAudio).setVisibility(View.VISIBLE);
+				findViewById(R.id.btStopRecordAudio).setVisibility(View.INVISIBLE);
+				recordAudio.stopRecord();
+			} break;
+			case R.id.btSave: {
+				findViewById(R.id.bt_save_effect).startAnimation(anim);
 			} break;
 			case R.id.btAddImage : {
 				findViewById(R.id.imageAddLayout).setVisibility(View.VISIBLE);
@@ -291,12 +281,7 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 				openCameraForVideo(4);
 				break;
 			}
-			case R.id.btAddAudio : {
-				Intent intent = new Intent(AddScreen.this,Recording.class);
-				startActivityForResult(intent, TAKE_AUDIO_RECORDER);
-				findViewById(R.id.imagebtAudio).startAnimation(anim);
-				break;
-			}
+			
 			case R.id.btCreateEvent : {
 				newRecord = new Card(etTitle.getText().toString(), etBody.getText().toString(), audioPath.toString(), imagePath.toString(), videoPath.toString(), time.toString(),latitute,longitude);
 				db.insertNewRecord(newRecord);
@@ -315,11 +300,11 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 				break;
 			} 
 			case R.id.btAddTime : {
-				//TimeView.setText(time);
+//				TimeView.setText(time);
 //				timePicker = (TimePicker) findViewById(R.id.timePicker);
 //				timePicker.setVisibility(View.VISIBLE);
-//				findViewById(R.id.imagebtTime).startAnimation(anim);
-//				time = timePicker.getCurrentHour() + ":" + timePicker.getCurrentMinute();
+				findViewById(R.id.imagebtTime).startAnimation(anim);
+				time = timePicker.getCurrentHour() + ":" + timePicker.getCurrentMinute();
 				TimeView.setText(time);
 				Log.d(tag, time);
 				break;
@@ -344,11 +329,6 @@ public class AddScreen extends Activity implements OnClickListener, LocationList
 				}
 				break;
 			}
-			case R.id.button2: {
-				findViewById(R.id.body).setVisibility(View.GONE);
-				findViewById(R.id.imageAddLayout).setVisibility(View.GONE);
-				findViewById(R.id.videoAddLayout).setVisibility(View.GONE);
-			} break;
 		}
 	}
 

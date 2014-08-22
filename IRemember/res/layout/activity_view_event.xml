@@ -291,14 +291,14 @@
         android:layout_height="60dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/bt_clear" />
+        android:background="@drawable/bt_delete" />
     
     <ImageView 
         android:id="@+id/bt_delete_effect" 
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_alignLeft="@+id/btDelete"
-        android:background="@drawable/bt_clear_effect"/>   
+        android:background="@drawable/bt_delete_effect"/>   
         
     <ImageButton
         android:id="@+id/btEditEvent"
@@ -307,14 +307,14 @@
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/btDelete"
         android:layout_marginRight="30dp"
-        android:background="@drawable/bt_create" />
+        android:background="@drawable/bt_edit" />
     
      <ImageView 
         android:id="@+id/bt_edit_effect" 
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_alignLeft="@+id/btEditEvent"
-        android:background="@drawable/bt_create_effect"/>   
+        android:background="@drawable/bt_edit_effect"/>   
         
     <ImageButton
         android:id="@+id/btBack"
